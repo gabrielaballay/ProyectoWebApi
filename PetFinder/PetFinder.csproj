@@ -13,4 +13,9 @@
     <PackageReference Include="Mysql.Data.EntityFrameworkCore" Version="8.0.18" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\imagenesUser\" />
+  </ItemGroup>
+
 </Project>

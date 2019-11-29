@@ -30,6 +30,7 @@ namespace PetFinder.Api
             this.config = config;
         }
 
+		//***************************USUARIO LOGEADO*******************************
         // GET: api/<controller>
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -46,6 +47,7 @@ namespace PetFinder.Api
             }
         }
 
+		//*************************USUARIO X ID********************************************
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -61,23 +63,18 @@ namespace PetFinder.Api
             }
         }
 
+		//******************************REGISTRARSE*******************************************
         // POST api/<controller>
         [HttpPost("Registrarse")]
-<<<<<<< HEAD
         [AllowAnonymous]
-=======
->>>>>>> 347700ac7e0f3e361b2eed4be3e4c6994a987b4a
         public async Task<IActionResult> Registrarse(Usuario usuario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-<<<<<<< HEAD
                     var a=usuario.Telefono;
                     var e = usuario.Clave;
-=======
->>>>>>> 347700ac7e0f3e361b2eed4be3e4c6994a987b4a
                     /*usuario.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                                                 password: usuario.Clave,
                                                 salt: System.Text.Encoding.ASCII.GetBytes("SALADA"),
@@ -96,6 +93,7 @@ namespace PetFinder.Api
             }
         }
 
+		//*************************************UPDATE***********************************
         // PUT api/<controller>/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Usuario usuario)
@@ -107,13 +105,15 @@ namespace PetFinder.Api
                 if (ModelState.IsValid && contexto.Usuarios.AsNoTracking().SingleOrDefault(u => u.UsuarioId == id && u.Email == User.Identity.Name) != null)
                 {
                     usuario.UsuarioId = id;
-                    /*usuario.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                                                password: usuario.Clave,
-                                                salt: System.Text.Encoding.ASCII.GetBytes("SALADA"),
-                                                prf: KeyDerivationPrf.HMACSHA1,
-                                                iterationCount: 1000,
-                                                numBytesRequested: 256 / 8));*/
-
+					/*if (usuario.Clave.Length <9)
+					{
+						usuario.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+													password: usuario.Clave,
+													salt: System.Text.Encoding.ASCII.GetBytes("SALADA"),
+													prf: KeyDerivationPrf.HMACSHA1,
+													iterationCount: 1000,
+													numBytesRequested: 256 / 8));
+					}*/
                     contexto.Usuarios.Update(usuario);
                     contexto.SaveChanges();
                     return Ok(usuario);
@@ -126,6 +126,7 @@ namespace PetFinder.Api
             }
         }
 
+		//***************************************DELETE****************************************
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -136,9 +137,9 @@ namespace PetFinder.Api
                 var user = contexto.Usuarios.FirstOrDefault(e => e.UsuarioId == id && e.Email == User.Identity.Name);
                 if (user != null)
                 {
-                    //entidad.EstadoPropietario = 0;
-                    //contexto.Usuarios.Remove(user);
-                    //contexto.SaveChanges();
+                    user.Estado = 0;
+					contexto.Usuarios.Update(user);
+                    contexto.SaveChanges();
                     return Ok();
                 }
                 return BadRequest();
@@ -149,7 +150,7 @@ namespace PetFinder.Api
             }
         }
 
-
+		//***************************************LOGIN********************************
         // GET api/<controller>/5
         [HttpPost("login")]
         [AllowAnonymous]

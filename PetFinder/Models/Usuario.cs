@@ -15,6 +15,7 @@ namespace PetFinder.Models
         public string Telefono { get; set; }
         public string  Email { get; set; }
         public string  Clave { get; set; }
-        public int ProvinciaId { get; set; }
+		public int Estado { get; set; }
+		public int ProvinciaId { get; set; }
     }
 }

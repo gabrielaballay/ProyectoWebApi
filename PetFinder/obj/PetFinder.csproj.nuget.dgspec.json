@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Laura\\Desktop\\ProyectoLab3\\PetFinderWeb\\PetFinderWeb\\PetFinder\\PetFinder.csproj": {}
+    "C:\\Users\\Usuario\\Documents\\ProyectoLab3\\ProyectoWeb\\PetFinder\\PetFinder.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Laura\\Desktop\\ProyectoLab3\\PetFinderWeb\\PetFinderWeb\\PetFinder\\PetFinder.csproj": {
+    "C:\\Users\\Usuario\\Documents\\ProyectoLab3\\ProyectoWeb\\PetFinder\\PetFinder.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Laura\\Desktop\\ProyectoLab3\\PetFinderWeb\\PetFinderWeb\\PetFinder\\PetFinder.csproj",
+        "projectUniqueName": "C:\\Users\\Usuario\\Documents\\ProyectoLab3\\ProyectoWeb\\PetFinder\\PetFinder.csproj",
         "projectName": "PetFinder",
-        "projectPath": "C:\\Users\\Laura\\Desktop\\ProyectoLab3\\PetFinderWeb\\PetFinderWeb\\PetFinder\\PetFinder.csproj",
-        "packagesPath": "C:\\Users\\Laura\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Laura\\Desktop\\ProyectoLab3\\PetFinderWeb\\PetFinderWeb\\PetFinder\\obj\\",
+        "projectPath": "C:\\Users\\Usuario\\Documents\\ProyectoLab3\\ProyectoWeb\\PetFinder\\PetFinder.csproj",
+        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Usuario\\Documents\\ProyectoLab3\\ProyectoWeb\\PetFinder\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Laura\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -68,16 +68,10 @@
             }
           },
           "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
+            "net461"
           ],
           "assetTargetFallback": true,
-          "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "warn": true
         }
       }
     }
