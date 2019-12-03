@@ -20,8 +20,14 @@ namespace PetFinder.Models
 		public IFormFile Imagen { get; set; }
         public int Estado { get; set; }
         public DateTime Fecha { get; set; }
+        [NotMapped]
         public int RecompensaId { get; set; }
+        [NotMapped]
+        public Recompensa Insentivo { get; set; }
+        [NotMapped]
         public int LocalizaId { get; set; }
+        [NotMapped]
+        public Localizacion ubicacion { get; set; }
         public int UsuarioId { get; set; }
     }
 }

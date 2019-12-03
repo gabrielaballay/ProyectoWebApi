@@ -27,16 +27,25 @@ namespace PetFinder.Api
 		}
 		// GET: api/<controller>
 		[HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var mascotas = contexto.Mascotas.Where(x => x.Estado == 1);
+                return Ok(mascotas.ToList());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var mascotas = contexto.Mascotas.Where(x => x.Estado == 1 && x.UsuarioId==id);
+            return Ok(mascotas.ToList());
         }
 
         // POST api/<controller>
@@ -47,8 +56,22 @@ namespace PetFinder.Api
 			if (ModelState.IsValid) {
 				if (image.Length > 0)
 				{
+                    //Cargo de ubicacion de la mascota
+                    contexto.Localizaciones.Add(mascota.ubicacion);
+                    contexto.SaveChanges();
+
+                    //Cargo la recompensa si existiera
+                    if (mascota.Insentivo != null)
+                    {
+                        contexto.Recompensas.Add(mascota.Insentivo);
+                        contexto.SaveChanges();
+                    }
+
+                    //recupero el usuario
 					var user = contexto.Usuarios.FirstOrDefault(u => u.Email == User.Identity.Name);
-					var fileName = CambiarNombre(Path.GetExtension(image.FileName));
+
+                    //Guardo la imagen en el servidor
+                    var fileName = CambiarNombre(Path.GetExtension(image.FileName));
 					var folder = "wwwroot/imagenesUser/" + user.UsuarioId + "_" + user.Apellido + user.Nombre;
 					if (!Directory.Exists(folder))
 					{
@@ -60,40 +83,75 @@ namespace PetFinder.Api
 						image.CopyTo(fileStream);
 						mascota.Foto = fileName;
 					}
-				}
-				contexto.Mascotas.Add(mascota);
-				contexto.SaveChanges();
-				return CreatedAtAction(nameof(Get), new { id = mascota.MascotaId }, mascota);
-			}
+
+                    //Guardo la mascota
+                    mascota.LocalizaId = mascota.ubicacion.LocalizacionId;
+                    contexto.Mascotas.Add(mascota);
+                    contexto.SaveChanges();
+                    return CreatedAtAction(nameof(Get), new { id = mascota.MascotaId }, mascota);
+                }
+                return BadRequest();
+            }
 			return Ok("prueba");
 		}
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public async Task<IActionResult> Put(int id, Mascota mascota)
         {
+            try
+            {               
+                contexto.Mascotas.Update(mascota);
+                contexto.SaveChanges();
+                return Ok(mascota);               
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            try
+            {
+                //Cambio el estado de la moscota
+                var user = contexto.Usuarios.FirstOrDefault(e => e.Email == User.Identity.Name);
+                var mascota = contexto.Mascotas.FirstOrDefault(m => m.MascotaId == id);
+                if (user != null)
+                {
+                    mascota.Estado = 0;
+                    contexto.Mascotas.Update(mascota);
+                    contexto.SaveChanges();
+                    return Ok();
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
-		private string CambiarNombre(string ext)
-		{
-			//caracteres para el nombre nuevo
-			string chars = "23456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-			//crean un generador al azar
-			Random rnd = new Random();
-			string name = string.Empty;
-			while (name.Length < 8)
-			{
-				name += chars.Substring(rnd.Next(chars.Length), 1);
-			}
-			//agregamos un prefijo al nombre generado al azar
-			name = "pet_" + name + ext;
-			return name;
-		}
-	}
+        /****************************************************************
+        **** Metodo para generar un nombre al azar para las imagenes****
+        * **************************************************************/
+        private string CambiarNombre(string ext)
+        {
+            //caracteres para el nombre nuevo
+            string chars = "23456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            //crean un generador al azar
+            Random rnd = new Random();
+            string name = string.Empty;
+            while (name.Length < 8)
+            {
+                name += chars.Substring(rnd.Next(chars.Length), 1);
+            }
+            //agregamos un prefijo al nombre generado al azar y la extension del mismo
+            name = "pet_" + name + ext;
+            return name;
+        }
+    }
 }

@@ -13662,23 +13662,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Usuario\\.nuget\\packages\\": {},
+    "C:\\Users\\Gabriel\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Usuario\\Documents\\ProyectoLab3\\ProyectoWeb\\PetFinder\\PetFinder.csproj",
+      "projectUniqueName": "C:\\Users\\Gabriel\\Desktop\\ProyectoLaboratorio3\\AppWeb\\ProyectoWebApi\\PetFinder\\PetFinder.csproj",
       "projectName": "PetFinder",
-      "projectPath": "C:\\Users\\Usuario\\Documents\\ProyectoLab3\\ProyectoWeb\\PetFinder\\PetFinder.csproj",
-      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Usuario\\Documents\\ProyectoLab3\\ProyectoWeb\\PetFinder\\obj\\",
+      "projectPath": "C:\\Users\\Gabriel\\Desktop\\ProyectoLaboratorio3\\AppWeb\\ProyectoWebApi\\PetFinder\\PetFinder.csproj",
+      "packagesPath": "C:\\Users\\Gabriel\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Gabriel\\Desktop\\ProyectoLaboratorio3\\AppWeb\\ProyectoWebApi\\PetFinder\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Gabriel\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

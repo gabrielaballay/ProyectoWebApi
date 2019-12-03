@@ -11,7 +11,7 @@ namespace PetFinder.Models
         public string Foto { get; set; }
         public string  Descripcion { get; set; }
         public DateTime Fecha { get; set; }
-        public int LocalizacionId { get; set; }
+        public int LocalizaId { get; set; }
         public int MascotaId { get; set; }
         public int UsuarioId { get; set; }
     }
