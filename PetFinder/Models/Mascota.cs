@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PetFinder.Models
 {
@@ -11,23 +7,19 @@ namespace PetFinder.Models
     {
         public int MascotaId { get; set; }
         public string NombreMascota { get; set; }
-        public string  Raza { get; set; }
-        public string  Tamanio { get; set; }
+        public string Raza { get; set; }
+        public string Tamanio { get; set; }
         public int Edad { get; set; }
         public string Descripcion { get; set; }
         public string Foto { get; set; }
-		[NotMapped]
-		public IFormFile Imagen { get; set; }
+        [NotMapped]
+        public string Imagen { get; set; }
         public int Estado { get; set; }
-        public DateTime Fecha { get; set; }
-        [NotMapped]
+        public string Fecha { get; set; }
         public int RecompensaId { get; set; }
-        [NotMapped]
-        public Recompensa Insentivo { get; set; }
-        [NotMapped]
-        public int LocalizaId { get; set; }
-        [NotMapped]
-        public Localizacion ubicacion { get; set; }
+        //[NotMapped]
+        //public Recompensa Insentivo { get; set; }
+        public String Lugar { get; set; }
         public int UsuarioId { get; set; }
     }
 }

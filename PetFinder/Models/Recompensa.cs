@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PetFinder.Models
 {
@@ -9,7 +6,7 @@ namespace PetFinder.Models
     {
         public int RecompensaId { get; set; }
         public Decimal Monto { get; set; }
-        public int Tiempo { get; set; }
+        public string Tiempo { get; set; }
         public int Estado { get; set; }
     }
 }

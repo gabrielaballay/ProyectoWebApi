@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetFinder.Models
 {
@@ -9,10 +6,11 @@ namespace PetFinder.Models
     {
         public int EncontradaId { get; set; }
         public string Foto { get; set; }
-        public string  Descripcion { get; set; }
-        public DateTime Fecha { get; set; }
-        public int LocalizaId { get; set; }
-        public int MascotaId { get; set; }
+        [NotMapped]
+        public string Imagen { get; set; }
+        public string Descripcion { get; set; }
+        public string Fecha { get; set; }
+        public string Lugar { get; set; }
         public int UsuarioId { get; set; }
     }
 }

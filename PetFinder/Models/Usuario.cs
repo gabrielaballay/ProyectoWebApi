@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PetFinder.Models
+﻿namespace PetFinder.Models
 {
     public class Usuario
     {
@@ -13,9 +8,9 @@ namespace PetFinder.Models
         public string Ciudad { get; set; }
         public string Direccion { get; set; }
         public string Telefono { get; set; }
-        public string  Email { get; set; }
-        public string  Clave { get; set; }
-		public int Estado { get; set; }
-		public int ProvinciaId { get; set; }
+        public string Email { get; set; }
+        public string Clave { get; set; }
+        public int Estado { get; set; }
+        public int ProvinciaId { get; set; }
     }
 }

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PetFinder.Models;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,7 +30,7 @@ namespace PetFinder.Api
             this.config = config;
         }
 
-		//***************************USUARIO LOGEADO*******************************
+        //***************************USUARIO LOGEADO*******************************
         // GET: api/<controller>
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -47,7 +47,7 @@ namespace PetFinder.Api
             }
         }
 
-		//*************************USUARIO X ID********************************************
+        //*************************USUARIO X ID********************************************
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -63,7 +63,7 @@ namespace PetFinder.Api
             }
         }
 
-		//******************************REGISTRARSE*******************************************
+        //******************************REGISTRARSE*******************************************
         // POST api/<controller>
         [HttpPost("Registrarse")]
         [AllowAnonymous]
@@ -73,7 +73,7 @@ namespace PetFinder.Api
             {
                 if (ModelState.IsValid)
                 {
-                    var a=usuario.Telefono;
+                    var a = usuario.Telefono;
                     var e = usuario.Clave;
                     /*usuario.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                                                 password: usuario.Clave,
@@ -93,19 +93,19 @@ namespace PetFinder.Api
             }
         }
 
-		//*************************************UPDATE***********************************
+        //*************************************UPDATE***********************************
         // PUT api/<controller>/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Usuario usuario)
         {
-            
+
             try
             {
                 //edita solo el propietario logeado
                 if (ModelState.IsValid && contexto.Usuarios.AsNoTracking().SingleOrDefault(u => u.UsuarioId == id && u.Email == User.Identity.Name) != null)
                 {
                     usuario.UsuarioId = id;
-					/*if (usuario.Clave.Length <9)
+                    /*if (usuario.Clave.Length <9)
 					{
 						usuario.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
 													password: usuario.Clave,
@@ -126,7 +126,7 @@ namespace PetFinder.Api
             }
         }
 
-		//***************************************DELETE****************************************
+        //***************************************DELETE****************************************
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -138,7 +138,7 @@ namespace PetFinder.Api
                 if (user != null)
                 {
                     user.Estado = 0;
-					contexto.Usuarios.Update(user);
+                    contexto.Usuarios.Update(user);
                     contexto.SaveChanges();
                     return Ok();
                 }
@@ -150,7 +150,7 @@ namespace PetFinder.Api
             }
         }
 
-		//***************************************LOGIN********************************
+        //***************************************LOGIN********************************
         // GET api/<controller>/5
         [HttpPost("login")]
         [AllowAnonymous]
@@ -158,12 +158,12 @@ namespace PetFinder.Api
         {
             try
             {
-               /* string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                    password: loginView.Password,
-                    salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
-                    prf: KeyDerivationPrf.HMACSHA1,
-                    iterationCount: 1000,
-                    numBytesRequested: 256 / 8));*/
+                /* string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                     password: loginView.Password,
+                     salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                     prf: KeyDerivationPrf.HMACSHA1,
+                     iterationCount: 1000,
+                     numBytesRequested: 256 / 8));*/
                 var u = contexto.Usuarios.FirstOrDefault(x => x.Email == loginView.Email);
                 if (u == null || u.Clave != loginView.Clave)//hashed)
                 {
@@ -171,22 +171,22 @@ namespace PetFinder.Api
                 }
                 else
                 {
-                     var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(config["TokenAuthentication:SecretKey"]));
-                     var credenciales = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                     var claims = new List<Claim>
+                    var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(config["TokenAuthentication:SecretKey"]));
+                    var credenciales = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    var claims = new List<Claim>
                      {
                          new Claim(ClaimTypes.Name, u.Email),
                          new Claim("FullName", u.Nombre + " " + u.Apellido),
                          new Claim(ClaimTypes.Role, "Usuario"),
                      };
 
-                     var token = new JwtSecurityToken(
-                         issuer: config["TokenAuthentication:Issuer"],
-                         audience: config["TokenAuthentication:Audience"],
-                         claims: claims,
-                         expires: DateTime.Now.AddMinutes(60),
-                         signingCredentials: credenciales
-                     );
+                    var token = new JwtSecurityToken(
+                        issuer: config["TokenAuthentication:Issuer"],
+                        audience: config["TokenAuthentication:Audience"],
+                        claims: claims,
+                        expires: DateTime.Now.AddMinutes(60),
+                        signingCredentials: credenciales
+                    );
                     return Ok(new JwtSecurityTokenHandler().WriteToken(token));
                 }
             }
