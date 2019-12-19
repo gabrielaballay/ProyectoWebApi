@@ -1,17 +1,112 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+/****** HEADER ******/
+
+header {
+    background: #1176b6;
+    padding: 10px 0;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
+/****** BARRA IZQUIERDA *******/
+
+main {
+    padding-top: 20px;
 }
+
+main .barra-lateral-izquierda {
+padding-bottom: 10px;
+padding-left: 0;
+}
+
+main .barra-lateral-izquierda nav {
+border-bottom: 1px solid #c7c8ca;
+padding-bottom: 20px;
+}
+
+main .barra-lateral-izquierda nav a {
+display: block;
+padding: 3px;
+font-family: Arial, Helvetica, sans-serif;
+color: #3d3c3c;
+}
+
+main .barra-lateral-izquierda nav a:hover {
+background: #f2f2f2;
+text-decoration: none;
+}
+
+main .barra-lateral-izquierda nav a i {
+margin-right: 10px;
+}
+
+/****** CONTENIDO PRINCIPAL ******/
+/****** PUBLICAR ******/
+
+main .contenido-principal .publicar {
+margin-bottom: 20px;
+}
+
+main .contenido-principal .publicar .foto {
+padding-left: 15px;
+}
+
+main .contenido-principal .publicar .foto a {
+width: 60px;
+height: 60px;
+display: inline-block;
+overflow: hidden;
+border-radius: 100px;
+margin-top: 20px;
+}
+
+main .contenido-principal .publicar .foto img {
+width: 100%;
+}
+
+main .contenido-principal .publicar form textarea {
+width: 100%;
+max-width: 100%;
+min-height: 100px;
+max-height: 200px;
+border: none;
+padding: 15px;
+font-size: 16px;
+font-family: Tahoma, Verdana, Segoe, sans-serif;
+color: #565656;
+box-shadow: 0 2px 2px 0 rgba(0,0,0,.35);
+}
+
+main .contenido-principal .publicar form .contenedor-botones {
+padding: 20px 0;
+border-bottom: 1px solid #c7c8ca;
+}
+
+main .contenido-principal .publicar form .contenedor-botones a {
+color: #8d8d8d;
+font-size: 20px;
+margin-right: 10px;
+}
+
+main .contenido-principal .publicar form .contenedor-botones a:hover {
+color: #3d3c3c;
+}
+
+main .contenido-principal .publicar form button {
+border: 1px solid #00609c;
+padding: 5px 30px;
+font-size: 14px;
+font-family: Arial, Helvetica, sans-serif;
+background: linear-gradient(to bottom,#1a87cd 0%,#1176b6 100%);
+color: #fff;
+border-radius: 3px;
+cursor: pointer;
+}
+
+main .contenido-principal .publicar form button:hover {
+background: linear-gradient(to bottom,#1176b6 0%,#1a87cd 100%);
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -34,12 +129,6 @@ button.accept-policy {
   line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
 
 body {
   /* Margin bottom by footer height */

@@ -20,78 +20,52 @@
 <body>
     <header>
         <div class="container">
-            <!--Barra Logo + Menu -->
-            <div class="row nav rounded-top align-items-stretch justify-content-between">
-                <!--Logotio-->
-                <div class="col-md-12 col-lg logo d-flex align-items-center justify-content-center justify-content-lg-start">
-                    <h2>PetFinder Arg</h2>
-                    <span class="icono icon-dot"></span>                    
-                </div>
-
-                <!-- Menu -->
-                <nav class="col-md-12 col-lg-auto menu d-flex align-items-stretch flex-wrap flex-sm-nowrap">
-                    <a href="#portafolio" class="c-1 d-flex align-items-center">
-                        <div class="d-flex flex-column text-center">
-                            <span>Portafolio</span>
-                            <i class="icono icon-briefcase"></i>
-                        </div>
-                    </a>
-                    <a href="#acerca" class="c-2 d-flex align-items-center">
-                        <div class="d-flex flex-column text-center">
-                            <span>Aserca de</span>
-                            <i class="icono icon-user"></i>
-                        </div>
-                    </a>
-                    <a href="#contacto" class="c-3 d-flex align-items-center">
-                        <div class="d-flex flex-column text-center">
-                            <span>Contacto</span>
-                            <i class="icono icon-mail"></i>
-                        </div>
-                    </a>
-                </nav>
-            </div>
-            <!-- Slider -->
-            <div class="row slider">
-                <div class="col">
-                    <div class="carousel slide" id="slider" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <li data-target="#slider" data-slide-to="0" class="active"></li>
-                            <li data-target="#slider" data-slide-to="1"></li>
-                            <li data-target="#slider" data-slide-to="2"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="img/slide1.jpg" alt="imagen 1" class="d-block img-fluid">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img/slide2.jpg" alt="imagen 2" class="d-block img-fluid">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img/slide3.jpg" alt="imagen 3" class="d-block img-fluid">
-                            </div>
-                        </div>
-
-                        <a href="#slider" class="carousel-control-prev" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Anterior</span>
-                        </a>
-                        <a href="#slider" class="carousel-control-next" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Siguiente</span>
-                        </a>
-                    </div>
-                </div>
+            <div class="row justify-content-between">
+                <div class="col-auto logo d-none d-sm-none d-md-block ">
+                    <a asp-controller="Home" asp-action="Index"><img src="#" alt="Pet Finder Arg"></a>
+                </div>                
             </div>
         </div>
     </header>
-    
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
+    <partial name="_CookieConsentPartial" />
+    <main class="container">
+        <div class="row">
+            <div class="col-12 col-md-3 barra-lateral-izquierda" id="barra-lateral-izquierda">
+                <nav>
+                    <a asp-controller="Usuario" asp-action="Index"><i class="icon-users"></i>Perfil</a>
+                    <a href="#"><i class="icon-mail"></i>Mis Mascotas</a>
+                    <a href="#"><i class="icon-thumbs-up"></i>Mascotas Perdidas</a>
+                    <a href="#"><i class="icon-play"></i>Mascotas Encontradas</a>
+                    <a href="#"><i class="icon-picture"></i>Encontre una Mascota!</a>
+                    <a href="#"><i class="icon-music"></i>Cargara Mascotas</a>
+                    <a href="#"><i class="icon-book"></i>Cambiar Contraseña</a>
+                </nav>
+            </div>
+
+            <a href="#" class="fondo-enlace" id="fondo_enlace"></a>
+
+            <div class="col contenido-principal">
+                <div class="publicar">
+                    <div class="row">
+                        <!---- Fila del boton menu ---->
+                        <div class="col">
+                            <a href="#" class="btn-menu d-none d-md-none d-flex justify-content-between" id="btn-menu">
+                                <span>Menu</span>
+                                <i class="icon-menu"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-9">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>                
+            </div>            
+        </div>
+    </main>
+    
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2019 - PetFinder - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

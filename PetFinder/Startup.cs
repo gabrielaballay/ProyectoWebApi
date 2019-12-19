@@ -88,17 +88,17 @@ namespace PetFinder
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
+                /*routes.MapRoute(
                   name: "home",
                   template: "index/{**accion}",
                   defaults: new { controller = "Home", action = "Index" });
                 routes.MapRoute(
                     name: "logout",
                     template: "logout/{**accion}",
-                    defaults: new { controller = "Home", action = "Logout" });
+                    defaults: new { controller = "Home", action = "Logout" });*/
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Login}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });                          
                 
         }
