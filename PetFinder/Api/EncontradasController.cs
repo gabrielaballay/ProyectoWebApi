@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace PetFinder.Api
 {
     [Route("api/[controller]")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class EncontradasController : Controller
     {
         private ArrayList listaMascotas = new ArrayList();

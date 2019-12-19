@@ -147,7 +147,7 @@ namespace PetFinder.Api
 
                     //recupero el usuario
                     var user = contexto.Usuarios.FirstOrDefault(u => u.Email == User.Identity.Name);
-
+                    mascota.UsuarioId = user.UsuarioId;
                     //Guardo la imagen en el servidor
                     var fileName = CambiarNombre();
                     var folder = "wwwroot\\imagenesUsuarios\\" + user.UsuarioId + "_" + user.Apellido;
