@@ -1,63 +1,63 @@
 ﻿@model PetFinder.Models.Usuario
 @inject DataContext context
 
+
 @{
-    ViewData["Title"] = "Registro";
+    ViewData["Title"] = "Editar";
 }
 
-
-<h4>Registrarse</h4>
+<h4>Editar Perfil</h4>
+<span style="color:red">@ViewBag.Error</span>
 <hr />
-<span style="color:red" class="text-center">@ViewBag.Error</span>
-<span style="color:red" class="text-center">@ViewBag.StackTrace</span>
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Create" class="needs-validation" novalidate>
+        <form asp-action="Edit" class="needs-validation" novalidate>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <input asp-for="Apellido" class="form-control" placeholder="Apellido"/>
-                        <span asp-validation-for="Apellido" class="text-danger"></span>
+                        <input asp-for="Apellido" class="form-control" />
+                        <div class="invalid-feedback">Ingrese Apellido.</div>
                     </div>
                     <div class="form-group">
-                        <input asp-for="Nombre" class="form-control" placeholder="Nombre" />
+                        <input asp-for="Nombre" class="form-control" />
                         <span asp-validation-for="Nombre" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input asp-for="Ciudad" class="form-control" placeholder="Ciudad" />
+                        <input asp-for="Ciudad" class="form-control" />
                         <span asp-validation-for="Ciudad" class="text-danger"></span>
-                    </div>
+                    </div>                
                     <div class="form-group">
-                        <input asp-for="Telefono" class="form-control" placeholder="Telefono"/>
+                        <input asp-for="Telefono" class="form-control" />
                         <span asp-validation-for="Telefono" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input asp-for="Email" class="form-control" placeholder="Email"/>
+                        <input asp-for="Email" class="form-control" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input asp-for="Clave" class="form-control" placeholder="Password"/>
+                        <input asp-for="Clave" value="@Model.Clave" class="form-control" readonly/>
                         <span asp-validation-for="Clave" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <select asp-for="ProvinciaId" class="form-control" placeholder="Provincia" />
-                        
+                        <select asp-for="ProvinciaId" class="form-control" />
                         @foreach (var item in context.Provincias)
                         {
-                            @:<option value="@item.ProvinciaId">@(item.NombreProvincia)</option>
+                            @:<option @(item.ProvinciaId == Model.ProvinciaId ? "selected" : "") value="@item.ProvinciaId">@(item.NombreProvincia)</option>
                         }
                         </select>
                         <span asp-validation-for="ProvinciaId" class="text-danger"></span>
-
                     </div>
-                    <div class="d-flex justify-content-around">
+                    <div class="d-flex justify-content-around mb-3">
                         <div>
-                            <input type="submit" value="Registrar" class="btn btn-primary" />
+                            <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
                         </div>
                         <div>
-                            <a asp-controller="Home" asp-action="Login" class="btn btn-outline-success">Volver</a>
+                            <a asp-action="Index" class="btn btn-outline-success">Volver</a>
                         </div>
                     </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>

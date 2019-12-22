@@ -12,5 +12,6 @@ namespace PetFinder.Models
         public DbSet<Mascota> Mascotas { get; set; }
         public DbSet<Recompensa> Recompensas { get; set; }
         public DbSet<Encontrada> Encontradas { get; set; }
+        public DbSet<Provincia> Provincias { get; set; }
     }
 }

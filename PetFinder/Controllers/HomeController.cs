@@ -17,11 +17,18 @@ using System.Threading.Tasks;
 
 namespace PetFinder.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class HomeController : Controller
     {
         private readonly DataContext contexto;
         private readonly IConfiguration config;
+
+        public HomeController(DataContext contexto, IConfiguration config)
+        {
+            this.contexto = contexto;
+            this.config = config;
+        }
+
+        [Authorize(Policy = "Administrador")]
         public IActionResult Index()
         {
             return View();
@@ -38,10 +45,16 @@ namespace PetFinder.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        // GET: Home/Login
+        public ActionResult Login()
+        {
+            return View();
+        }
+
         // POST: Home/Login
         [HttpPost]
-        [AllowAnonymous]
-        public IActionResult Login(LoginView loginView)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginView loginView)
         {
             try
             {
@@ -51,52 +64,36 @@ namespace PetFinder.Controllers
                     prf: KeyDerivationPrf.HMACSHA1,
                     iterationCount: 1000,
                     numBytesRequested: 256 / 8));*/
-                var p = contexto.Usuarios.FirstOrDefault(x=>x.Email==loginView.Email);
-                if (p == null || p.Clave != loginView.Clave)
+                var u = contexto.Usuarios.FirstOrDefault(x => x.Email == loginView.Email);
+
+                if (u!=null && loginView.Clave == u.Clave)
                 {
-                    ViewBag.Mensaje = "Datos inválidos";
+                    var claims = new List<Claim> {
+                        new Claim(ClaimTypes.Name, u.Email),
+                        new Claim("FullName", u.Nombre + " " + u.Apellido),
+                        new Claim(ClaimTypes.Role, "Administrador"),
+                    };
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties
+
+                    {
+                        AllowRefresh = true,
+
+                    };
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity),
+                        authProperties);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Mensaje = "Correo o Contraseña Incorrectos!";
                     return View();
                 }
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, p.Email),
-                    new Claim("FullName", p.Nombre + " " + p.Apellido),
-                    //new Claim(ClaimTypes.Role, p.IdPropietario < 10? "Administrador":"Propietario"),
-                    new Claim(ClaimTypes.Role, "Administrador"),
-                };
 
-                var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                var authProperties = new AuthenticationProperties
-                {
-                    //AllowRefresh = <bool>,
-                    // Refreshing the authentication session should be allowed.
-                    AllowRefresh = true,
-                    //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                    // The time at which the authentication ticket expires. A 
-                    // value set here overrides the ExpireTimeSpan option of 
-                    // CookieAuthenticationOptions set with AddCookie.
-
-                    //IsPersistent = true,
-                    // Whether the authentication session is persisted across 
-                    // multiple requests. When used with cookies, controls
-                    // whether the cookie's lifetime is absolute (matching the
-                    // lifetime of the authentication ticket) or session-based.
-
-                    //IssuedUtc = <DateTimeOffset>,
-                    // The time at which the authentication ticket was issued.
-
-                    //RedirectUri = <string>
-                    // The full path or absolute URI to be used as an http 
-                    // redirect response value.
-                };
-
-                /*await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);*/
-                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -106,5 +103,13 @@ namespace PetFinder.Controllers
             }
         }
 
+        // GET: Home/Logout
+        public async Task<ActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login");
+        }
+        
     }
 }

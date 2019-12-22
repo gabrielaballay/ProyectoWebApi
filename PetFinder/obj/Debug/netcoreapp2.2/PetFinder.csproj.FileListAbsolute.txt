@@ -134,3 +134,7 @@ C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcore
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\PetFinder.pdb
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\PetFinder.csproj.CopyComplete
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Home\Login.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Usuario\Edit.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Mascota\Index.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Encontrada\Index.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Mascota\MiMascota.g.cshtml.cs

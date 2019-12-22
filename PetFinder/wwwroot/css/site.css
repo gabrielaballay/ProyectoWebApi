@@ -3,9 +3,41 @@ for details on configuring this project to bundle and minify static web assets. 
 
 /****** HEADER ******/
 
+.si-top {
+    position: fixed;
+    margin-top: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
 header {
     background: #1176b6;
     padding: 10px 0;
+    color: #fff;
+}
+
+header .logo span {
+    color: #fff;
+    text-shadow:5px 5px 4px #3d3c3c;
+    font-size:1.2em;
+}
+
+header .logo img {
+    height: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+/****SLIDER****/
+
+.slider {
+    margin-bottom: 40px;
+}
+
+.slider .col {
+    padding: 0;
 }
 
 /****** BARRA IZQUIERDA *******/
@@ -15,131 +47,154 @@ main {
 }
 
 main .barra-lateral-izquierda {
-padding-bottom: 10px;
-padding-left: 0;
+    padding-bottom: 10px;
+    padding-left: 0;
 }
 
 main .barra-lateral-izquierda nav {
-border-bottom: 1px solid #c7c8ca;
-padding-bottom: 20px;
+    border-bottom: 1px solid #c7c8ca;
+    padding-bottom: 20px;
+    background: #b8defa;
 }
 
 main .barra-lateral-izquierda nav a {
-display: block;
-padding: 3px;
-font-family: Arial, Helvetica, sans-serif;
-color: #3d3c3c;
+    display: block;
+    padding: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #3d3c3c;
 }
 
 main .barra-lateral-izquierda nav a:hover {
-background: #f2f2f2;
-text-decoration: none;
+    background: #f2f2f2;
+    text-decoration: none;
 }
 
-main .barra-lateral-izquierda nav a i {
-margin-right: 10px;
-}
+    main .barra-lateral-izquierda nav a img {
+        margin-right: 20px;
+        margin-left: 20px;
+    }
 
 /****** CONTENIDO PRINCIPAL ******/
-/****** PUBLICAR ******/
 
+.form-control{
+    display:inline;
+}
 main .contenido-principal .publicar {
-margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
-main .contenido-principal .publicar .foto {
-padding-left: 15px;
+.foto_mascota img{
+    width:40px;
+    height:40px;
+    border-radius:100px;
+}
+/****** Login ******/
+
+div.login {
+    border: 2px solid #1a87cd;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px;
+    padding: 15px;
+    background-image: url(../img/imagen2.jpg);
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:425px;
 }
 
-main .contenido-principal .publicar .foto a {
-width: 60px;
-height: 60px;
-display: inline-block;
-overflow: hidden;
-border-radius: 100px;
-margin-top: 20px;
+@media screen and (max-width: 767px) {
+    header .logo span {
+        color: #fff;
+        text-shadow: 5px 5px 4px #3d3c3c;
+        font-size: 1.2em;
+    }
+
+    header .logo img {
+        height: 30px;
+        margin: 0;
+        padding: 0;
+    }
+
+    main .btn-menu {
+        margin:10px;
+        display: block;
+        border: 1px solid #009C21;
+        padding: 5px 10px;
+        font-size: 14px;
+        background: linear-gradient(to bottom, #1a87cd 0%, #1176b6 100%);
+        color: #fff;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    main .btn-menu:hover {
+        background: #0d659d;
+        text-decoration: none;
+    }
+
+    main .fondo-enlace {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        cursor: pointer;
+        display: none;
+    }
+
+    main .fondo-enlace.active {
+        display: block;
+        background: rgba(0, 0, 0, .5);
+        z-index: 1099;
+    }
+
+    main .barra-lateral-izquierda {
+        width: 70%;
+        position: fixed;
+        top: 0;
+        left: -15px;
+        transform: translateX(-100%);
+    }
+
+    main .barra-lateral-izquierda.active {
+        transition: all .3s ease;
+        transform: translateX(0%);
+        background: rgba(0, 0, 0, .85);
+        z-index: 1100;
+        padding: 0;
+        margin: 0;
+        height: 100vh;
+        overflow: scroll;
+    }
+
+    main .barra-lateral-izquierda nav {
+        border-bottom: none;
+    }
+
+    main .barra-lateral-izquierda nav a {
+        /*padding: 10px;*/
+        color: #fff;
+    }
+
+    main .barra-lateral-izquierda nav a:hover {
+        color: #3d3c3c;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        white-space: nowrap;
+        /* Set the fixed height of the footer here */
+        height: 60px;
+        line-height: 60px; /* Vertically center the text there */
+    }
 }
 
-main .contenido-principal .publicar .foto img {
-width: 100%;
-}
 
-main .contenido-principal .publicar form textarea {
-width: 100%;
-max-width: 100%;
-min-height: 100px;
-max-height: 200px;
-border: none;
-padding: 15px;
-font-size: 16px;
-font-family: Tahoma, Verdana, Segoe, sans-serif;
-color: #565656;
-box-shadow: 0 2px 2px 0 rgba(0,0,0,.35);
-}
-
-main .contenido-principal .publicar form .contenedor-botones {
-padding: 20px 0;
-border-bottom: 1px solid #c7c8ca;
-}
-
-main .contenido-principal .publicar form .contenedor-botones a {
-color: #8d8d8d;
-font-size: 20px;
-margin-right: 10px;
-}
-
-main .contenido-principal .publicar form .contenedor-botones a:hover {
-color: #3d3c3c;
-}
-
-main .contenido-principal .publicar form button {
-border: 1px solid #00609c;
-padding: 5px 30px;
-font-size: 14px;
-font-family: Arial, Helvetica, sans-serif;
-background: linear-gradient(to bottom,#1a87cd 0%,#1176b6 100%);
-color: #fff;
-border-radius: 3px;
-cursor: pointer;
-}
-
-main .contenido-principal .publicar form button:hover {
-background: linear-gradient(to bottom,#1176b6 0%,#1a87cd 100%);
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
+@media screen and (max-width: 320px) {
+    main .barra-lateral-izquierda nav a {
+        font-size: 12px;
+    }
 }

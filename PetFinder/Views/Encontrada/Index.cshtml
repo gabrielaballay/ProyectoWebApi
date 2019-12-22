@@ -1,0 +1,46 @@
+﻿@model IEnumerable<PetFinder.Models.Encontrada>
+
+@{
+    ViewData["Title"] = "Mascotas Encontradas";
+}
+
+<h4>Mascotas Encontradas</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Imagen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lugar)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td class="foto_mascota">
+               <img src="~/imagenesUsuarios/encontradas/@item.Imagen" width="60">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lugar)
+            </td>
+            
+            <td>
+                @Html.ActionLink("Ver +" +
+               "", "Details", new { /* id=item.PrimaryKey */ })                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

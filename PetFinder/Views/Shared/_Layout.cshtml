@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PetFinderArg</title>
+    <title>@ViewData["Title"] PetFinderArg</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -19,27 +19,31 @@
 </head>
 <body>
     <header>
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-auto logo d-none d-sm-none d-md-block ">
-                    <a asp-controller="Home" asp-action="Index"><img src="#" alt="Pet Finder Arg"></a>
-                </div>                
+        <div class="container-fluid">
+            <div class="row justify-content-start">
+                <div class="col-5 col-sm-5 col-md-auto order-last order-sm-0 logo ml-3">
+                    <img src="~/icons/pets2.png" alt=""><span> Pet Finder Arg</span>
+                </div>
             </div>
         </div>
     </header>
 
     <partial name="_CookieConsentPartial" />
-    <main class="container">
+    <main class="container-fluid">
+        @if (User.IsInRole("Administrador"))
+        {
         <div class="row">
-            <div class="col-12 col-md-3 barra-lateral-izquierda" id="barra-lateral-izquierda">
+            <div class="col-12 col-md-3 barra-lateral-izquierda ml-3" id="barra-lateral-izquierda">
                 <nav>
-                    <a asp-controller="Usuario" asp-action="Index"><i class="icon-users"></i>Perfil</a>
-                    <a href="#"><i class="icon-mail"></i>Mis Mascotas</a>
-                    <a href="#"><i class="icon-thumbs-up"></i>Mascotas Perdidas</a>
-                    <a href="#"><i class="icon-play"></i>Mascotas Encontradas</a>
-                    <a href="#"><i class="icon-picture"></i>Encontre una Mascota!</a>
-                    <a href="#"><i class="icon-music"></i>Cargara Mascotas</a>
-                    <a href="#"><i class="icon-book"></i>Cambiar Contraseña</a>
+                    <a asp-controller="Home" asp-action="Index"><img src="~/icons/home.png"> Home</a>
+                    <a asp-controller="Usuario" asp-action="Index"><img src="~/icons/man.png" /> Perfil</a>
+                    <a asp-controller="Mascota" asp-action="MiMascota"><img src="~/icons/pet.png" /> Mis Mascotas</a>
+                    <a asp-controller="Mascota" asp-action="Index"><img src="~/icons/search.png" /> Mascotas Perdidas</a>
+                    <a asp-controller="Encontrada" asp-action="Index"><img src="~/icons/girl.png" /> Mascotas Encontradas</a>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="Si encontraste una mascota hace click aca!"><img src="~/icons/dog.png" /> Encontre una Mascota!</a>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="Si se te perdio tu mascota hace click aca!"><img src="~/icons/veterinary.png" /> Cargar Mascota</a>
+                    <a href="#"><img src="~/icons/password.png" /> Cambiar Contraseña</a>
+                    <a asp-controller="Home" asp-action="Logout"><img src="~/icons/logout.png" /> Cerrar Sesi&oacute;n</a>
                 </nav>
             </div>
 
@@ -47,26 +51,34 @@
 
             <div class="col contenido-principal">
                 <div class="publicar">
-                    <div class="row">
-                        <!---- Fila del boton menu ---->
+                    <div class="row"><!---- Fila del boton menu ---->
                         <div class="col">
                             <a href="#" class="btn-menu d-none d-md-none d-flex justify-content-between" id="btn-menu">
                                 <span>Menu</span>
-                                <i class="icon-menu"></i>
+                                <img src="~/icons/menu-button.png">
                             </a>
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <div class="col-12 col-md-9">
+                        <div class="col-10 col-md-11">
                             @RenderBody()
                         </div>
                     </div>
-                </div>                
-            </div>            
+                </div>
+            </div>
         </div>
+        }
+        else
+        {
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6">
+                    @RenderBody()
+                </div>
+            </div>
+        }
     </main>
-    
-    <footer class="border-top footer text-muted">
+
+    <footer class="nav fixed-bottom border-top text-muted">
         <div class="container">
             &copy; 2019 - PetFinder - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
@@ -91,7 +103,7 @@
         </script>
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>
