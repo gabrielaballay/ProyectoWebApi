@@ -1,0 +1,134 @@
+﻿@model PetFinder.Models.Mascota
+
+@{
+    ViewData["Title"] = "Detalle";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row detalle_mascota">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-12 col-md-6">
+                <div class="foto_mascota_detalle">
+                    <img src="~/imagenesUsuarios/@Model.Imagen" />
+                </div>                
+                <table class="mt-2">                    
+                    <tr>
+                        <td>
+                            Ultima Localizaci&oacute;n
+                        </td>
+                        <td colspan="2" class="td_detalle">
+                            <input asp-for="Lugar" class="form-control" readonly />
+                        </td>
+                    </tr>
+                </table>                
+            </div>
+            <div class="col-12 col-md-6">
+                <table>
+                    <tr>
+                        <td>
+                            Nombre
+                        </td>
+                        <td class="td_detalle">
+                            <input asp-for="NombreMascota" class="form-control" readonly />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Raza
+                        </td>
+                        <td class="td_detalle">
+                            <input asp-for="Raza" class="form-control" readonly />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Edad
+                        </td>
+                        <td class="td_detalle">
+                            <input asp-for="Edad" class="form-control" readonly />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tama&ntilde;o
+                        </td>
+                        <td colspan="2" class="td_detalle">
+                            <input asp-for="Tamanio" class="form-control" readonly />
+                            </tdcolspan="2">
+                    </tr>
+                    <tr>
+                        <td>
+                            Descripcion
+                        </td>
+                        <td colspan="2" class="td_detalle">
+                            <textarea asp-for="Descripcion" class="form-control" readonly></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Fecha
+                        </td>
+                        <td colspan="2" class="td_detalle">
+                            <input asp-for="Fecha" class="form-control" readonly />
+                        </td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </table>
+                <table class="mt-1">
+                    <tr>
+                        <td colspan="3">Recompensa</td>
+                    </tr>
+
+                    @if (Model.RecompensaId == 1)
+                    {
+                        <tr>
+                            <td>
+                                Monto
+                            </td>
+                            <td colspan="2">
+                                <input asp-for="Edad" class="form-control" readonly />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tiempo
+                            </td>
+                            <td colspan="2">
+                                <input asp-for="Edad" class="form-control" readonly />
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>            
+        </div>        
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12">
+        <div class=" d-flex justify-content-around">
+            @if (ViewBag.op == 1) { 
+            <div>
+                <span style="color:forestgreen; font-weight:bold;" class="text-center">@ViewBag.Mensaje</span>
+                <button class="btn-warning">@Html.ActionLink("Editar", "Edit", new { id = Model.UsuarioId })</button>
+            </div>
+            }
+            <div>
+                @if (ViewBag.op == 1)
+                {
+                    <button class="btn-dark">@Html.ActionLink("Volver", "MiMascota", new { id = Model.UsuarioId })</button>
+                }
+                @if (ViewBag.op == 2)
+                {
+                    <button class="btn-dark">@Html.ActionLink("Volver", "Index", new { id = Model.UsuarioId })</button>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

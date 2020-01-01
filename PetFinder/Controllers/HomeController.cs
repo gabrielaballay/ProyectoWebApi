@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace PetFinder.Controllers
 {
+    [Authorize(Policy = "Administrador")]
     public class HomeController : Controller
     {
         private readonly DataContext contexto;
@@ -27,8 +28,7 @@ namespace PetFinder.Controllers
             this.contexto = contexto;
             this.config = config;
         }
-
-        [Authorize(Policy = "Administrador")]
+        
         public IActionResult Index()
         {
             return View();
@@ -46,6 +46,7 @@ namespace PetFinder.Controllers
         }
 
         // GET: Home/Login
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
@@ -54,6 +55,7 @@ namespace PetFinder.Controllers
         // POST: Home/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<ActionResult> Login(LoginView loginView)
         {
             try

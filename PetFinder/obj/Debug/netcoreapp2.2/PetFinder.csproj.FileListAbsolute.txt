@@ -138,3 +138,7 @@ C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcore
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Mascota\Index.g.cshtml.cs
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Encontrada\Index.g.cshtml.cs
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Mascota\MiMascota.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Mascota\Details.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Mascota\Create.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Usuario\CambiaClave.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Debug\netcoreapp2.2\Razor\Views\Usuario\CambiaMail.g.cshtml.cs

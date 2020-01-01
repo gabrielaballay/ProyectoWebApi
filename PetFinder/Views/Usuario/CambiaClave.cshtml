@@ -1,0 +1,43 @@
+﻿@model PetFinder.Models.CambioClave
+@{
+    ViewData["Title"] = "Configuración";
+}
+
+<h4>Cambiar Contraseña</h4>
+<hr />
+<cite class="text-warning">ADVERTENCIA:Si cambia la contraseña debera loguearse nuevamente!</cite>
+<small class="d-inline-flex text-danger">La contraseña debe contener de 6 a 8 caracteres y al menos una letra o un digito</small>
+<hr/>
+<div class="row">
+    <div class="col-12 col-md-6">
+        <form asp-action="CambiaClave" class="needs-validation" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="OldClave" class="form-control" placeholder="Contraseña Vieja" required />
+                <span asp-validation-for="OldClave" class="text-danger"></span>
+                <span style="color:red">@ViewBag.ErrorOldClave</span>
+            </div>
+            <div class="form-group">
+                <input asp-for="NewClave" class="form-control" placeholder="Contraseña Nueva" required />
+                <span asp-validation-for="NewClave" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="RepeatClave" class="form-control" placeholder="Repita la Contraseña Nueva" required />
+                <span asp-validation-for="RepeatClave" class="text-danger"></span>
+            </div>
+            <div class="d-flex justify-content-around mb-3">
+                <span style="color:red" class="d-inline">@ViewBag.Error</span>
+                <div>
+                    <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
+                </div>
+                <div>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-success">Volver</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,126 @@
+﻿@model PetFinder.Models.Mascota
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<h4 class="d-inline-flex">Cargar Mascota</h4>&nbsp;<small class="d-inline-flex text-danger">No se olvide de llenar todos los campos</small>
+
+<div class="row detalle_mascota">
+    <div class="col-md-12">
+        <form asp-action="Create" enctype="multipart/form-data" method="post" class="needs-validation" novalidate>
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="col-12 col-md-6">
+                    <div class="foto_mascota_detalle">
+                        <input asp-for="Foto" type="file" class="form-control" accept="image/*" required />
+                    </div>
+                    <table class="mt-2">
+                        <tr>
+                            <td>
+                                Ultima Localizaci&oacute;n
+                            </td>
+                            <td colspan="2" class="td_detalle">
+                                <textarea asp-for="Lugar" class="form-control" placeholder="Descricion de la zona donde se perdio su mascota" required></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-12 col-md-6">
+                    <table>
+                        <tr>
+                            <td>
+                                Nombre
+                            </td>
+                            <td class="td_detalle">
+                                <input asp-for="NombreMascota" class="form-control" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Raza
+                            </td>
+                            <td class="td_detalle">
+                                <input asp-for="Raza" class="form-control" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Edad
+                            </td>
+                            <td class="td_detalle">
+                                <input asp-for="Edad" class="form-control" placeholder="ej 2 años y 3 meses" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tama&ntilde;o
+                            </td>
+                            <td colspan="2" class="td_detalle">
+                                <input asp-for="Tamanio" class="form-control" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Descripci&oacute;n
+                            </td>
+                            <td colspan="2" class="td_detalle">
+                                <textarea asp-for="Descripcion" class="form-control" placeholder="Descripcion de su mascota" required></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Fecha
+                            </td>
+                            <td colspan="2" class="td_detalle">
+                                <input asp-for="Fecha" class="form-control" type="date" required />
+                            </td>
+                        </tr>
+                        <tr>
+                        </tr>
+                    </table>
+                    <table class="mt-1">
+                        <tr>
+                            <td colspan="3">Recompensa(Opcional)</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Monto
+                            </td>
+                            <td colspan="2">
+                                <input asp-for="Edad" class="form-control" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tiempo
+                            </td>
+                            <td colspan="2">
+                                <input asp-for="Edad" class="form-control" placeholder="Duracion de la recompensa en dias" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <div class=" d-flex justify-content-around">
+                        <div>
+                            <span style="color:forestgreen; font-weight:bold;" class="text-center">@ViewBag.Mensaje</span>
+                            <input type="submit" value="Guardar" class="btn btn-primary" />
+                        </div>
+                        <div>
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-success">Volver</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>        
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -46,9 +46,13 @@
                             </select>
                             <span asp-validation-for="ProvinciaId" class="text-danger"></span>
                         </div>
-                        <div class="d-flex justify-content-center mb-3">
-                            <span style="color:forestgreen; font-weight:bold;" class="text-center">@ViewBag.Mensaje</span>
-                            <span class="btn-warning btn">@Html.ActionLink("Editar", "Edit", new { id = Model.UsuarioId })</span>
+                        <div class="row text-center">
+                            <div class="col-12">
+                                <div >
+                                    <span style="color:forestgreen; font-weight:bold;" class="text-center d-block">@ViewBag.Mensaje</span>
+                                    <button class="btn-warning btn">@Html.ActionLink("Editar", "Edit", new { id = Model.UsuarioId })</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

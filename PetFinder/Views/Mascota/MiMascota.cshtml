@@ -5,45 +5,48 @@
 }
 
 <h4>Mis Mascotas</h4>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Foto
-            </th>
-            <th>
-                Nombre
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Raza)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Edad)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td class="foto_mascota">
-                    <img src="~/imagenesUsuarios/@item.Imagen" width="60">
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NombreMascota)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Raza)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Edad)
-                </td>
-                <td>
-                    @Html.ActionLink("Ver +", "Details", new { id = item.MascotaId })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-info">
+            <thead>
+                <tr>
+                    <th>
+                        Foto
+                    </th>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Raza)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Edad)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="foto_mascota">
+                            <img src="~/imagenesUsuarios/@item.Imagen" width="60">
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreMascota)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Raza)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Edad)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Ver +", "Details", new { id = item.MascotaId, op = 1 })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -108,7 +108,7 @@ namespace PetFinder.Controllers
                 return View();
             }
         }
-        
+
         /******Cambia el estado del usuario cuando este elimine su cuenta******/
         // GET: Usuario/Delete/5
         /* public ActionResult Delete(int id)
@@ -132,6 +132,80 @@ namespace PetFinder.Controllers
                  return View();
              }
          }*/
+
+        public ActionResult CambiaClave(int id)
+        {            
+            return View();
+        }
+
+        // POST: Usuario/CambiaClave/5
+        [HttpPost]
+        public ActionResult CambiaClave(CambioClave cambioClave)
+        {
+
+            try
+            {
+                var user_old = contexto.Usuarios.AsNoTracking().SingleOrDefault(u => u.Email== User.Identity.Name);
+
+                if (ModelState.IsValid) 
+                {
+                    if (user_old.Clave == cambioClave.OldClave)
+                    {                        
+                        /*user.UsuarioId = id;
+                        user.Estado = 1;
+                        contexto.Usuarios.Update(user);
+                        contexto.SaveChanges();
+                        TempData["MensajeData"] = "Los datos se modificaron con exito!";
+                        return RedirectToAction(nameof(Index));*/
+                        ViewBag.Error = "Bien!";
+                        return RedirectToAction("Logout", "Home");
+                    }
+                    else
+                    {
+                        ViewBag.ErrorOldClave = "Contraseña incorrecta";
+                        return View();
+                    }
+                }
+                else
+                {
+                    ViewBag.Error = "Error al intentar modificar los datos!";
+                    return View();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                ViewBag.StackTrace = ex.StackTrace;
+                ViewBag.Error = ex.Message;
+                return View();
+            }
+        }
+
+        public ActionResult CambiaMail()
+        {
+            ViewBag.mail = User.Identity.Name;
+            return View();
+        }
+
+        // POST: Usuario/CambiaMail/5
+        [HttpPost]
+        public ActionResult CambiaMail(CambiarCorreo model)
+        {
+            if (ModelState.IsValid && model.NewCorreo==model.RepeatCorreo)
+            {
+                var user = contexto.Usuarios.FirstOrDefault(x => x.Email == model.OldCorreo);
+                user.Email = model.NewCorreo;
+                contexto.Usuarios.Update(user);
+                contexto.SaveChanges();
+
+                return RedirectToAction("Logout", "Home");
+            }
+            else
+            {
+                ViewBag.mail = User.Identity.Name;
+                return View(model);
+            }            
+        }
 
     }
 }

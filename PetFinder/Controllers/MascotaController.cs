@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ using PetFinder.Models;
 
 namespace PetFinder.Controllers
 {
+    [Authorize(Policy = "Administrador")]
     public class MascotaController : Controller
     {
         private List<Mascota> listaMascotas = new List<Mascota>();
@@ -39,9 +41,24 @@ namespace PetFinder.Controllers
         }
 
         // GET: Mascota/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int id, int op)
         {
-            return View();
+            if (op == 1) {
+                var usuario = contexto.Usuarios.FirstOrDefault(x => x.Email == User.Identity.Name);
+                var folder = usuario.UsuarioId + "_" + usuario.Apellido;
+                var mascota = contexto.Mascotas.FirstOrDefault(x => x.MascotaId == id);
+                mascota.Imagen = folder + "/" + mascota.Foto;
+                ViewBag.op = op;
+                return View(mascota);
+            }else
+            {
+                var mascota = contexto.Mascotas.FirstOrDefault(x => x.MascotaId == id);
+                var usuario = contexto.Usuarios.FirstOrDefault(x => x.UsuarioId==mascota.UsuarioId);
+                var folder = usuario.UsuarioId + "_" + usuario.Apellido;                
+                mascota.Imagen = folder + "/" + mascota.Foto;
+                ViewBag.op = op;
+                return View(mascota);
+            }
         }
 
         // GET: Mascota/Create
@@ -52,14 +69,13 @@ namespace PetFinder.Controllers
 
         // POST: Mascota/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Mascota mascota)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Home");
             }
             catch
             {
