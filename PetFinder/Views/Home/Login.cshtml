@@ -1,33 +1,70 @@
 ﻿@model PetFinder.Models.LoginView
-
-<h4 style="text-align:center;">Ingresar/Registrarse</h4>
-<hr />
-<div class="row d-flex justify-content-center">
-    <div class="col-10 col-md-7 login">
-        <form asp-action="Login" class="needs-validation" novalidate>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group has-danger">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" required/>
-                <div class="invalid-feedback">Ingrese un correo valido!!!</div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Clave" class="control-label"></label>
-                <input asp-for="Clave" class="form-control" required/>
-                <div class="invalid-feedback">Ingrese una contraseña!!!</div>
-            </div>
-
-            <div class="form-group d-flex justify-content-around">
-                <div><input type="submit" value="Ingresar" class="btn btn-primary" /></div>
-                <div><a asp-controller="Usuario" asp-action="Create"
-                        class="btn btn-outline-danger"><span>Registrarse</span></a></div>
-            </div>
-            <span style="color:red">@ViewBag.Mensaje</span>
-        </form>
-    </div>
-</div>
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@{
+    Layout = null;
 }
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] PetFinderArg</title>
+    
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/login.css" />
+</head>
+<body>
+    <header>
+        <div class="container-fluid">
+            <div class="row justify-content-start">
+                <div class="col-auto order-last order-sm-0 logo ml-3">
+                    <img src="~/icons/pets2.png" alt=""><span> Pet Finder Arg</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <h4 style="text-align:center;">Ingresar/Registrarse</h4>
+    <hr />
+    <div class="row d-flex justify-content-center">
+        <div class="col-10 col-sm-7 col-md-5 col-lg-3 login">
+            <form asp-action="Login" class="needs-validation" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group has-danger">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" required />
+                    <div class="invalid-feedback">Ingrese un correo valido!!!</div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Clave" class="control-label"></label>
+                    <input asp-for="Clave" class="form-control" required />
+                    <div class="invalid-feedback">Ingrese una contraseña!!!</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-check-label">
+                        <input type="checkbox" name="" id="" value="opcion1"> Recordarme
+                    </label>
+                </div>
+                <div class="form-group">
+                    <a href="#">Olvide mi contraseña</a>
+                </div>
+                <div class="form-group d-flex justify-content-around">
+                    <div><input type="submit" value="Ingresar" class="btn btn-primary" /></div>
+                    <div>
+                        <a asp-controller="Usuario" asp-action="Create"
+                           class="btn btn-outline-danger"><span>Registrarse</span></a>
+                    </div>
+                </div>
+                <span style="color:red">@ViewBag.Mensaje</span>
+            </form>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
+</body>
+</html>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PetFinder.Models;
 
@@ -25,7 +26,10 @@ namespace PetFinder.Controllers
         // GET: Encontrada
         public ActionResult Index()
         {
-            var todasMascotas = contexto.Encontradas;
+            var todasMascotas = contexto.Encontradas
+                .Include(u => u.Lugar)                
+                .Where(m => m.Estado == 1);
+            
             foreach (var m in todasMascotas)
             {
                 var user = contexto.Usuarios.FirstOrDefault(u => u.UsuarioId == m.UsuarioId);

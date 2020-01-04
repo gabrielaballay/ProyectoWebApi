@@ -37,3 +37,6 @@ C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netco
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\PetFinder.dll
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\PetFinder.pdb
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\PetFinder.csproj.CopyComplete
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Mascota\Create.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Usuario\CambiaClave.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Usuario\CambiaMail.g.cshtml.cs

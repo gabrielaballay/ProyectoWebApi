@@ -1,28 +1,91 @@
 ﻿@model PetFinder.Models.Mascota
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Cargar";
 }
 
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css" />
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src='http://maps.google.com/maps/api/js?v3&key=AIzaSyBIN6hpUqdbpBoRwYTE1odhHdw1BEiMTVg'></script>
+<script src="~/js/locationpicker.jquery.js"></script>
+
+<style>
+    .pac-container {
+        z-index: 99999;
+    }
+</style>
 
 <h4 class="d-inline-flex">Cargar Mascota</h4>&nbsp;<small class="d-inline-flex text-danger">No se olvide de llenar todos los campos</small>
 
 <div class="row detalle_mascota">
-    <div class="col-md-12">
+    <div class="col-md-11">
         <form asp-action="Create" enctype="multipart/form-data" method="post" class="needs-validation" novalidate>
             <div class="row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="col-12 col-md-6">
                     <div class="foto_mascota_detalle">
-                        <input asp-for="Foto" type="file" class="form-control" accept="image/*" required />
+                        <input asp-for="ArchivoImagen" type="file" class="form-control" accept="image/*" required />
                     </div>
+                    <br />
+                    <button type="button" data-toggle="modal" data-target="#ModalMap" class="btn btn-warning text-sm-center">
+                        <img src="~/icons/marker.png" /><span id="ubicacion">&nbsp;Seleccionar Ubicación:</span>
+                    </button>
+
+                    <div class="modal fade" id="ModalMap" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="form-horizontal">
+                                        <div class="form-group form-inline">
+                                            <label class="control-label">Ubicación:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="ModalMapAddress" />
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                        </div>
+                                        <div id="ModalMapPreview" style="width: 100%; height: 400px;"></div>
+                                        <div class="clearfix">&nbsp;</div>
+                                        <div class="form-group form-inline">
+                                            <label class="p-r-small col-sm-1 control-label">Lat.:</label>
+                                            <input type="text" class="form-control p-r-small col-sm-3 mr-3" id="ModalMap-lat" />
+
+                                            <label class="p-r-small col-sm-1 control-label">Long.:</label>
+                                            <input type="text" class="form-control p-r-small col-sm-3 mr-3" id="ModalMap-lon" />
+
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <table class="mt-2">
                         <tr>
                             <td>
-                                Ultima Localizaci&oacute;n
+                                Zona:
                             </td>
-                            <td colspan="2" class="td_detalle">
-                                <textarea asp-for="Lugar" class="form-control" placeholder="Descricion de la zona donde se perdio su mascota" required></textarea>
+                            <td colspan="4" class="td_detalle">
+                                <textarea asp-for="Lugar.Zona" class="form-control" placeholder="Descripciòn de la zona donde se perdio su mascota" required></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Lat.:
+                            </td>
+                            <td>
+                                <input id="lat" asp-for="Lugar.Latitud" class="form-control" readonly required />
+                            </td>
+                            <td>
+                                Lon.:
+                            </td>
+                            <td>
+                                <input id="lon" asp-for="Lugar.Longitud" class="form-control" readonly required />
                             </td>
                         </tr>
                     </table>
@@ -89,7 +152,7 @@
                                 Monto
                             </td>
                             <td colspan="2">
-                                <input asp-for="Edad" class="form-control" />
+                                <input asp-for="Insentivo.Monto" class="form-control" />
                             </td>
                         </tr>
                         <tr>
@@ -97,7 +160,7 @@
                                 Tiempo
                             </td>
                             <td colspan="2">
-                                <input asp-for="Edad" class="form-control" placeholder="Duracion de la recompensa en dias" />
+                                <input asp-for="Insentivo.Tiempo" class="form-control" placeholder="Duracion de la recompensa en dias" />
                             </td>
                         </tr>
                     </table>
@@ -111,16 +174,39 @@
                             <input type="submit" value="Guardar" class="btn btn-primary" />
                         </div>
                         <div>
-                            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-success">Volver</a>
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-success">Volver</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>        
+        </form>
     </div>
 </div>
-
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    $("#ModalMapPreview").locationpicker({
+        location: {
+            latitude: -33.302103,
+            longitude: -66.337091
+        },
+        inputBinding: {
+            latitudeInput: $("#ModalMap-lat"),
+            longitudeInput: $("#ModalMap-lon")
+            //locationNameInput: $("#ModalMapAddress")
+        },
+        enableAutocomplete: true,
+        onchanged: function (currentLocation, radius, isMarkerDropped) {
+            //$("#ubicacion").html($("#ModalMapAddress").val());
+            $("#lat").val($("#ModalMap-lat").val());
+            $("#lon").val($("#ModalMap-lon").val());
+        }
+    });
+    $("#ModalMap").on("shown.bs.modal", function () {
+        $("#ModalMapPreview").locationpicker("autosize");
+    });
+</script>
+
+

@@ -1,0 +1,44 @@
+﻿body {
+    background-image: url(../img/imagen2.jpg);    
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 425px;
+}
+
+/****** Login ******/
+
+div.login {
+    border: 2px solid #1a87cd;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px;
+    padding: 45px;
+    background-color:aquamarine;
+}
+
+/********Logo***********/
+
+header {
+    background: #1176b6;
+    padding: 10px 0;
+    color: #fff;
+}
+
+header .logo span {
+    color: #fff;
+    text-shadow: 5px 5px 4px #3d3c3c;
+    font-size: 1.2em;
+}
+
+header .logo img {
+    height: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+
+/*****************MEDIA QUERY********************/
+@media screen and (max-width: 1027px) {
+    body {
+        background-image: none;        
+    }
+}

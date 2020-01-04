@@ -1,5 +1,18 @@
 {
   "version": "1.0",
   "defaultProvider": "cdnjs",
-  "libraries": []
-}
+  "libraries": [
+    {
+      "library": "jquery@3.4.1",
+      "files": [
+        "jquery.min.js",
+        "jquery.js",
+        "jquery.min.map"
+      ],
+      "destination": "wwwroot/lib/jquery/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "bootstrap@4.1.3",
+      "destination": "wwwroot/lib/bootstrap/"
+    }

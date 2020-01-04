@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Detalle";
 }
-
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?v3&&key=AIzaSyBIN6hpUqdbpBoRwYTE1odhHdw1BEiMTVg"></script>
 <div class="row">
     <div class="col-md-12">
         <div class="row detalle_mascota">
@@ -11,17 +11,33 @@
             <div class="col-12 col-md-6">
                 <div class="foto_mascota_detalle">
                     <img src="~/imagenesUsuarios/@Model.Imagen" />
-                </div>                
-                <table class="mt-2">                    
+                </div>
+                <table class="mt-2">
                     <tr>
                         <td>
-                            Ultima Localizaci&oacute;n
+                            Zona
                         </td>
-                        <td colspan="2" class="td_detalle">
-                            <input asp-for="Lugar" class="form-control" readonly />
+                        <td colspan="4" class="td_detalle">
+                            <input asp-for="Lugar.Zona" class="form-control" readonly />
                         </td>
                     </tr>
-                </table>                
+                    <tr>
+                        <td>
+                            Lat.:
+                        </td>
+                        <td>
+                            <input id="lat" asp-for="Lugar.Latitud" class="form-control" required />
+                        </td>
+                        <td>
+                            Long.:
+                        </td>
+                        <td>
+                            <input id="lon" asp-for="Lugar.Longitud" class="form-control" required />
+                        </td>
+                    </tr>
+
+                </table><br />
+                <div id="mapaStatic" style="width:100%; height:280px;"></div>
             </div>
             <div class="col-12 col-md-6">
                 <table>
@@ -55,7 +71,7 @@
                         </td>
                         <td colspan="2" class="td_detalle">
                             <input asp-for="Tamanio" class="form-control" readonly />
-                            </tdcolspan="2">
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -77,18 +93,18 @@
                     </tr>
                 </table>
                 <table class="mt-1">
-                    <tr>
-                        <td colspan="3">Recompensa</td>
-                    </tr>
 
-                    @if (Model.RecompensaId == 1)
+                    @if (Model.RecompensaId != 1)
                     {
+                        <tr>
+                            <td colspan="3">Recompensa</td>
+                        </tr>
                         <tr>
                             <td>
                                 Monto
                             </td>
                             <td colspan="2">
-                                <input asp-for="Edad" class="form-control" readonly />
+                                <input asp-for="Insentivo.Monto" class="form-control" readonly />
                             </td>
                         </tr>
                         <tr>
@@ -96,39 +112,75 @@
                                 Tiempo
                             </td>
                             <td colspan="2">
-                                <input asp-for="Edad" class="form-control" readonly />
+                                <input asp-for="Insentivo.Tiempo" class="form-control" readonly />
                             </td>
                         </tr>
                     }
                 </table>
-            </div>            
-        </div>        
-    </div>
-</div>
-<div class="row mt-2">
-    <div class="col-12">
-        <div class=" d-flex justify-content-around">
-            @if (ViewBag.op == 1) { 
-            <div>
-                <span style="color:forestgreen; font-weight:bold;" class="text-center">@ViewBag.Mensaje</span>
-                <button class="btn-warning">@Html.ActionLink("Editar", "Edit", new { id = Model.UsuarioId })</button>
-            </div>
-            }
-            <div>
-                @if (ViewBag.op == 1)
-                {
-                    <button class="btn-dark">@Html.ActionLink("Volver", "MiMascota", new { id = Model.UsuarioId })</button>
-                }
-                @if (ViewBag.op == 2)
-                {
-                    <button class="btn-dark">@Html.ActionLink("Volver", "Index", new { id = Model.UsuarioId })</button>
-                }
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div class=" d-flex justify-content-around">
+                            @if (ViewBag.op == 1)
+                            {
+                                <div>
+                                    <span style="color:forestgreen; font-weight:bold;" class="text-center">@ViewBag.Mensaje</span>
+                                    <button class="btn-warning">@Html.ActionLink("Editar", "Edit", new { id = Model.UsuarioId })</button>
+                                </div>
+                            }
+                            <div>
+                                @if (ViewBag.op == 1)
+                                {
+                                    <button class="btn-dark">@Html.ActionLink("Volver", "MiMascota", new { id = Model.UsuarioId })</button>
+                                }
+                                @if (ViewBag.op == 2)
+                                {
+                                    <button class="btn-dark">@Html.ActionLink("Volver", "Index", new { id = Model.UsuarioId })</button>
+                                }
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    function mostrarMapa() {
+        var lat = document.getElementById('lat').value.replace(",", ".");
+        var lon = document.getElementById('lon').value.replace(",", ".");
+        var map = document.getElementById('mapaStatic');
+        var latLon = new google.maps.LatLng(lat, lon);
+        var configMap = {
+            zoom: 15,
+            center: latLon
+        }
+        var mapa = new google.maps.Map(map, configMap);
+        var configMarker = {
+            position: latLon,
+            map: mapa
+        }
+        var marker = new google.maps.Marker(configMarker);
+        var options = {
+            strokeColor: "#0000FF",
+            strokeOpacity: .35,
+            strokeWeight: 2,
+            fillColor: "#FF0000",
+            fillOpacity: .15,
+            map: mapa,           
+            center: latLon,
+            radius: 300
+        }
+        var circle = new google.maps.Circle(options);
+
+
+    }
+    window.addEventListener("load", mostrarMapa, false);
+</script>

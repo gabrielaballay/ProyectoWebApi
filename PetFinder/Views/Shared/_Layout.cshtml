@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] PetFinderArg</title>
 
-    <!--<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css" />-->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 
@@ -14,7 +14,7 @@
     <header>
         <div class="container-fluid">
             <div class="row justify-content-start">
-                <div class="col-6 col-sm-6 col-md-auto order-last order-sm-0 logo ml-3">
+                <div class="col-auto order-last order-sm-0 logo ml-3">
                     <img src="~/icons/pets2.png" alt=""><span> Pet Finder Arg</span>
                 </div>
             </div>
@@ -23,61 +23,48 @@
 
     <partial name="_CookieConsentPartial" />
     <main class="container-fluid">
-        @if (User.IsInRole("Administrador"))
-        {
-            <div class="row">
-                <div class="col-12 col-md-3 barra-lateral-izquierda ml-3" id="barra-lateral-izquierda">
-                    <nav>
-                        <a asp-controller="Home" asp-action="Index"><img src="~/icons/home.png"> Home</a>
-                        <a asp-controller="Usuario" asp-action="Index"><img src="~/icons/man.png" /> Perfil</a>
-                        <a asp-controller="Mascota" asp-action="MiMascota"><img src="~/icons/pet.png" /> Mis Mascotas</a>
-                        <a asp-controller="Mascota" asp-action="Index"><img src="~/icons/search.png" /> Mascotas Perdidas</a>
-                        <a asp-controller="Encontrada" asp-action="Index"><img src="~/icons/girl.png" /> Mascotas Encontradas</a>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="Si encontraste una mascota hace click aca!"><img src="~/icons/dog.png" /> Encontre una Mascota!</a>
-                        <a asp-controller="Mascota" asp-action="Create" data-toggle="tooltip" data-placement="top" title="Si se te perdio tu mascota hace click aca!"><img src="~/icons/veterinary.png" /> Cargar Mascota</a>
-                        <!--**********Boton Configuracion***********-->
-                        <a href="#bloque1" aria-expanded="false" aria-controls="bloque1" data-toggle="collapse"><img src="~/icons/x26-config2.png" /> Configuraci&oacute;n</a>
-                        <div class="collapse" id="bloque1">
-                            <div class="dropdown-divider"></div>
-                            <a asp-controller="Usuario" asp-action="CambiaClave" class="dropdown-item text-danger"><img src="~/icons/password.png" />&nbsp; Cambiar Contrase&ntilde;a &nbsp;</a>
-                            <a asp-controller="Usuario" asp-action="CambiaMail" class="dropdown-item text-danger"><img src="~/icons/x26-mail.png" /> &nbsp; Cambiar Correo &nbsp;</a>
-                            <div class="dropdown-divider"></div>
+        <div class="row">
+            <div class="col-12 col-md-3 barra-lateral-izquierda ml-3" id="barra-lateral-izquierda">
+                <nav>
+                    <a asp-controller="Home" asp-action="Index"><img src="~/icons/home.png"> Home</a>
+                    <a asp-controller="Usuario" asp-action="Index"><img src="~/icons/man.png" /> Perfil</a>
+                    <a asp-controller="Mascota" asp-action="MiMascota"><img src="~/icons/pet.png" /> Mis Mascotas</a>
+                    <a asp-controller="Mascota" asp-action="Index"><img src="~/icons/search.png" /> Mascotas Perdidas</a>
+                    <a asp-controller="Encontrada" asp-action="Index"><img src="~/icons/girl.png" /> Mascotas Encontradas</a>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="Si encontraste una mascota hace click aca!"><img src="~/icons/dog.png" /> Encontre una Mascota!</a>
+                    <a asp-controller="Mascota" asp-action="Create" data-toggle="tooltip" data-placement="top" title="Si se te perdio tu mascota hace click aca!"><img src="~/icons/veterinary.png" /> Cargar Mascota</a>
+                    <!--**********Boton Configuracion***********-->
+                    <a href="#bloque1" aria-expanded="false" aria-controls="bloque1" data-toggle="collapse"><img src="~/icons/x26-config2.png" /> Configuraci&oacute;n</a>
+                    <div class="collapse" id="bloque1">
+                        <div class="dropdown-divider"></div>
+                        <a asp-controller="Usuario" asp-action="CambiaClave" class="dropdown-item text-danger"><img src="~/icons/password.png" />&nbsp; Cambiar Contrase&ntilde;a &nbsp;</a>
+                        <a asp-controller="Usuario" asp-action="CambiaMail" class="dropdown-item text-danger"><img src="~/icons/x26-mail.png" /> &nbsp; Cambiar Correo &nbsp;</a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                    <!--***Fin Boton Configuracion***-->
+                    <a asp-controller="Home" asp-action="Logout"><img src="~/icons/logout.png" /> Cerrar Sesi&oacute;n</a>
+                </nav>
+            </div>
+            <a href="#" class="fondo-enlace" id="fondo_enlace"></a>
+            <div class="col contenido-principal">
+                <div class="publicar">
+                    <div class="row">
+                        <!---- Fila del boton menu ---->
+                        <div class="col">
+                            <a href="#" class="btn-menu d-none d-md-none d-flex justify-content-between" id="btn-menu">
+                                <span>Menu</span>
+                                <img src="~/icons/menu-button.png">
+                            </a>
                         </div>
-                        <!--***Fin Boton Configuracion***-->
-                        <a asp-controller="Home" asp-action="Logout"><img src="~/icons/logout.png" /> Cerrar Sesi&oacute;n</a>
-                    </nav>
-                </div>
-
-                <a href="#" class="fondo-enlace" id="fondo_enlace"></a>
- 
-                <div class="col contenido-principal">
-                    <div class="publicar">
-                        <div class="row">
-                            <!---- Fila del boton menu ---->
-                            <div class="col">
-                                <a href="#" class="btn-menu d-none d-md-none d-flex justify-content-between" id="btn-menu">
-                                    <span>Menu</span>
-                                    <img src="~/icons/menu-button.png">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center">
-                            <div class="col-10 col-md-11">
-                                @RenderBody()
-                            </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-10 col-md-11">
+                            @RenderBody()
                         </div>
                     </div>
                 </div>
             </div>
-        }
-        else
-        {
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-6">
-                    @RenderBody()
-                </div>
-            </div>
-        }
+        </div>
     </main>
 
     <footer class="nav fixed-bottom border-top text-muted">
@@ -91,7 +78,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script src="~/js/site.js"></script>
-
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>
