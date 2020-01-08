@@ -17,6 +17,8 @@ namespace PetFinder.Controllers
     [Authorize(Policy = "Administrador")]
     public class MascotaController : Controller
     {
+        private readonly int _RegistrosPorPagina =3;
+        private PaginadorGenerico<Mascota> _PaginadorCustomers;
         private List<Mascota> listaMascotas = new List<Mascota>();
         private List<Mascota> misMascotas = new List<Mascota>();
         private readonly DataContext contexto;
@@ -29,53 +31,60 @@ namespace PetFinder.Controllers
         }
 
         // GET: Mascota
-        public ActionResult Index()
+        public ActionResult Index(int pagina = 1)
         {
-            var todasMascotas = contexto.Mascotas
-                .Include(u => u.Lugar)
-                .Include(r => r.Insentivo)
-                .Where(m => m.Estado == 1);
-            
-            foreach (var m in todasMascotas)
+            var user = contexto.Usuarios.FirstOrDefault(u => u.Email == User.Identity.Name);
+            int _TotalRegistros = 0;
+            using (contexto)
             {
-                var user = contexto.Usuarios.FirstOrDefault(u => u.UsuarioId == m.UsuarioId);
-                var folder = user.UsuarioId + "_" + user.Apellido;
-                m.Imagen = folder + "/" + m.Foto;
-                listaMascotas.Add(m);
-                var prueba = m.Insentivo.Monto;
-            }
+                // Número total de registros de la tabla Mascotas
+                _TotalRegistros = contexto.Mascotas.Where(m => m.UsuarioId != user.UsuarioId).Count();
 
-            return View(listaMascotas);
+                // Obtenemos la 'página de registros' de la tabla Mascotas
+                listaMascotas = contexto.Mascotas.OrderBy(x => x.Fecha)
+                                                 .Where(x=>x.UsuarioId!=user.UsuarioId)
+                                                 .Skip((pagina - 1) * _RegistrosPorPagina)
+                                                 .Take(_RegistrosPorPagina)
+                                                 .ToList();
+                
+                // Número total de páginas de la tabla Mascotas
+                var _TotalPaginas = (int)Math.Ceiling((double)_TotalRegistros / _RegistrosPorPagina);
+                // Instanciamos la 'Clase de paginación' y asignamos los nuevos valores
+                _PaginadorCustomers = new PaginadorGenerico<Mascota>()
+                {
+                    RegistrosPorPagina = _RegistrosPorPagina,
+                    TotalRegistros = _TotalRegistros,
+                    TotalPaginas = _TotalPaginas,
+                    PaginaActual = pagina,
+                    Resultado = listaMascotas
+                };
+                // Enviamos a la Vista la 'Clase de paginación'
+                return View(_PaginadorCustomers);
+            }            
         }
 
         // GET: Mascota/Details/5
-        public ActionResult Details(int id, int op)
+        public ActionResult Details(int id)
         {
-            if (op == 1)
+            var mascota = contexto.Mascotas
+                            .Include(u => u.Lugar)
+                            .Include(r => r.Insentivo)
+                            .FirstOrDefault(m => m.MascotaId == id);
+            var usuario = contexto.Usuarios.FirstOrDefault(x => x.UsuarioId == mascota.UsuarioId);
+            
+            mascota.Imagen =  mascota.Foto;
+            if (usuario.Email == User.Identity.Name)
             {
-                var usuario = contexto.Usuarios.FirstOrDefault(x => x.Email == User.Identity.Name);
-                var folder = usuario.UsuarioId + "_" + usuario.Apellido;
-                var mascota = contexto.Mascotas
-                                .Include(u => u.Lugar)
-                                .Include(r => r.Insentivo)
-                                .FirstOrDefault(m => m.MascotaId==id);
-                
-                mascota.Imagen = folder + "/" + mascota.Foto;
-                ViewBag.op = op;
-                return View(mascota);
+                ViewBag.op = "MiMascota";
             }
             else
             {
-                var mascota = contexto.Mascotas
-                                .Include(u => u.Lugar)
-                                .Include(r => r.Insentivo)
-                                .FirstOrDefault(m => m.MascotaId == id);
-                var usuario = contexto.Usuarios.FirstOrDefault(x => x.UsuarioId == mascota.UsuarioId);
-                var folder = usuario.UsuarioId + "_" + usuario.Apellido;
-                mascota.Imagen = folder + "/" + mascota.Foto;
-                ViewBag.op = op;
-                return View(mascota);
+                ViewBag.op = "Index";
+                TempData["idmascota"] = mascota.MascotaId;
             }
+
+            return View(mascota);
+
         }
 
         // GET: Mascota/Create
@@ -86,23 +95,32 @@ namespace PetFinder.Controllers
 
         // POST: Mascota/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Mascota mascota)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+
                     var recompensa = new Recompensa
                     {
                         Monto = mascota.Insentivo.Monto,
                         Tiempo = mascota.Insentivo.Tiempo,
                         Estado = 1
                     };
-                    if (recompensa.Estado == 1)
+                    if (recompensa.Monto > 0)
                     {
-                        contexto.Recompensas.Add(recompensa);
-                        contexto.SaveChanges();
-                        mascota.RecompensaId = recompensa.RecompensaId;
+                        if (recompensa.Estado == 1)
+                        {
+                            contexto.Recompensas.Add(recompensa);
+                            contexto.SaveChanges();
+                            mascota.RecompensaId = recompensa.RecompensaId;
+                        }
+                    }
+                    else
+                    {
+                        mascota.RecompensaId = 1;
                     }
 
                     var ubicacion = new Ubicacion
@@ -119,8 +137,8 @@ namespace PetFinder.Controllers
                     var image = mascota.ArchivoImagen;
                     var user = contexto.Usuarios.FirstOrDefault(u => u.Email == User.Identity.Name);
                     mascota.UsuarioId = user.UsuarioId;
-                    var fileName = ControlaImagen.CambiarNombre();
-                    var folder = "wwwroot\\imagenesUsuarios\\" + user.UsuarioId + "_" + user.Apellido;
+                    var fileName = user.UsuarioId + "_" + user.Apellido+"\\"+ControlaImagen.CambiarNombre();
+                    var folder = "wwwroot\\imagenesUsuarios\\";
                     if (!Directory.Exists(folder))
                     {
                         Directory.CreateDirectory(folder);
@@ -140,9 +158,9 @@ namespace PetFinder.Controllers
                     }
 
                     mascota.Foto = fileName;
-
+                    mascota.Imagen = fileName;
                     /************************Fin de Control de Imgen***********************/
-
+                    mascota.Estado = 1;
                     contexto.Mascotas.Add(mascota);
                     contexto.SaveChanges();
                 }
@@ -156,51 +174,16 @@ namespace PetFinder.Controllers
             }
         }
 
-        // GET: Mascota/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Mascota/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: Mascota/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var mascota = contexto.Mascotas.FirstOrDefault(m => m.MascotaId == id);
+            mascota.Estado = 0;
+            contexto.Update(mascota);
+            contexto.SaveChanges();
+            return RedirectToAction("MiMascota");
         }
 
-        // POST: Mascota/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: Mascota/MiMascota/5
         public ActionResult MiMascota()
@@ -212,13 +195,8 @@ namespace PetFinder.Controllers
                                 .Include(u => u.Lugar)
                                 .Include(r => r.Insentivo)
                                 .Where(m => m.Estado == 1 && m.UsuarioId == usuario.UsuarioId);
-            foreach (var m in mascotas)
-            {
-                m.Imagen = folder + "/" + m.Foto;
-                m.Imagen = folder + "/" + m.Foto;
-                misMascotas.Add(m);
-            }
-            return View(misMascotas);
+            
+            return View(mascotas);
         }
     }
 }

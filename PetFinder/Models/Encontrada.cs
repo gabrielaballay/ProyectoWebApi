@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetFinder.Models
@@ -9,6 +10,8 @@ namespace PetFinder.Models
         public string Foto { get; set; }
         [NotMapped]
         public string Imagen { get; set; }
+        [NotMapped]
+        public IFormFile ArchivoImagen { get; set; }
         [Required]
         public string Descripcion { get; set; }
         [Required]

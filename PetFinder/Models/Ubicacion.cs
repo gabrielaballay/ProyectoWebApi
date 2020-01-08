@@ -10,9 +10,9 @@ namespace PetFinder.Models
     {
         public int UbicacionId { get; set; }
         [Required(ErrorMessage ="Ingrese Latitud")]
-        public double Latitud { get; set; }
+        public string Latitud { get; set; }
         [Required(ErrorMessage = "Ingrese Longitud")]
-        public double Longitud { get; set; }
+        public string Longitud { get; set; }
         [Required(ErrorMessage = "Ingrese una Zona")]
         public string Zona { get; set; }
     }

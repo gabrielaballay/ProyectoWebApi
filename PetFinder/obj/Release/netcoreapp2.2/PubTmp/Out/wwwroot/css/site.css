@@ -95,18 +95,7 @@ main .contenido-principal .publicar {
     height: 50%;    
 }
 
-/****** Login ******/
 
-div.login {
-    border: 2px solid #1a87cd;
-    border-radius: 10px;
-    box-shadow: 5px 5px 5px;
-    padding: 15px;
-    background-image: url(../img/imagen2.jpg);
-    background-repeat:no-repeat;
-    background-position:center;
-    background-size:425px;
-}
 
 .detalle_mascota{
     border:2px solid #1176b6;

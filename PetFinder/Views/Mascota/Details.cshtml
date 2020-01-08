@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Detalle";
 }
+
+
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?v3&&key=AIzaSyBIN6hpUqdbpBoRwYTE1odhHdw1BEiMTVg"></script>
 <div class="row">
     <div class="col-md-12">
@@ -10,131 +12,130 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="col-12 col-md-6">
                 <div class="foto_mascota_detalle">
-                    <img src="~/imagenesUsuarios/@Model.Imagen" />
+                    <img src="~/imagenesUsuarios/@Model.Imagen" style="height:135px;" />
                 </div>
-                <table class="mt-2">
-                    <tr>
-                        <td>
-                            Zona
-                        </td>
-                        <td colspan="4" class="td_detalle">
-                            <input asp-for="Lugar.Zona" class="form-control" readonly />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Lat.:
-                        </td>
-                        <td>
-                            <input id="lat" asp-for="Lugar.Latitud" class="form-control" required />
-                        </td>
-                        <td>
-                            Long.:
-                        </td>
-                        <td>
-                            <input id="lon" asp-for="Lugar.Longitud" class="form-control" required />
-                        </td>
-                    </tr>
-
-                </table><br />
-                <div id="mapaStatic" style="width:100%; height:280px;"></div>
+                <div class="mt-2">
+                    <div class="form-inline">
+                        <div class="col-2 col-md-1">
+                            <label>Zona:</label>
+                        </div>
+                        <div class="col-9">
+                            <textarea asp-for="Lugar.Zona" class="form-control" maxlength="30" rows="1" cols="40" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="col-2 col-md-1">
+                            <label>Lat.:</label>
+                        </div>
+                        <div class="col-9">
+                            <input id="lat" asp-for="Lugar.Latitud" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="col-2 col-md-1">
+                            <label>Long.:</label>
+                        </div>
+                        <div class="col-9">
+                            <input id="lon" asp-for="Lugar.Longitud" class="form-control" readonly />
+                        </div>
+                    </div>
+                </div>
+                <div id="mapaStatic" style="width:100%; height:250px;" class="mb-2 mt-2"></div>
             </div>
             <div class="col-12 col-md-6">
-                <table>
-                    <tr>
-                        <td>
-                            Nombre
-                        </td>
-                        <td class="td_detalle">
+                <div>
+                    <div class="form-inline">
+                        <div class="col-4 col-md-3">
+                            <label>Nombre</label>
+                        </div>
+                        <div>
                             <input asp-for="NombreMascota" class="form-control" readonly />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Raza
-                        </td>
-                        <td class="td_detalle">
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="col-4 col-md-3">
+                            <label>Raza</label>
+                        </div>
+                        <div class="">
                             <input asp-for="Raza" class="form-control" readonly />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Edad
-                        </td>
-                        <td class="td_detalle">
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="col-4 col-md-3">
+                            <label>Edad</label>
+                        </div>
+                        <div class="">
                             <input asp-for="Edad" class="form-control" readonly />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Tama&ntilde;o
-                        </td>
-                        <td colspan="2" class="td_detalle">
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="col-4 col-md-3">
+                            <label>Tama&ntilde;o</label>
+                        </div>
+                        <div class="">
                             <input asp-for="Tamanio" class="form-control" readonly />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Descripcion
-                        </td>
-                        <td colspan="2" class="td_detalle">
-                            <textarea asp-for="Descripcion" class="form-control" readonly></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Fecha
-                        </td>
-                        <td colspan="2" class="td_detalle">
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="col-4 col-md-3">
+                            <label>Descripcion</label>
+                        </div>
+                        <div class="">
+                            <textarea asp-for="Descripcion" class="form-control" cols="30" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="col-4 col-md-3">
+                            <label>Fecha</label>
+                        </div>
+                        <div class="">
                             <input asp-for="Fecha" class="form-control" readonly />
-                        </td>
-                    </tr>
-                    <tr>
-                    </tr>
-                </table>
-                <table class="mt-1">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-1">
 
                     @if (Model.RecompensaId != 1)
                     {
-                        <tr>
-                            <td colspan="3">Recompensa</td>
-                        </tr>
-                        <tr>
-                            <td>
+                        <div>
+                            <label>Recompensa</label>
+                        </div>
+                        <div class="form-inline">
+                            <div class="col-4 col-md-3">
                                 Monto
-                            </td>
-                            <td colspan="2">
+                            </div>
+                            <div>
                                 <input asp-for="Insentivo.Monto" class="form-control" readonly />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
+                            </div>
+                        </div>
+                        <div class="form-inline">
+                            <div class="col-4 col-md-3">
                                 Tiempo
-                            </td>
-                            <td colspan="2">
+                            </div>
+                            <div>
                                 <input asp-for="Insentivo.Tiempo" class="form-control" readonly />
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
                     }
-                </table>
+                </div>
                 <div class="row mt-2">
                     <div class="col-12">
                         <div class=" d-flex justify-content-around">
-                            @if (ViewBag.op == 1)
-                            {
-                                <div>
-                                    <span style="color:forestgreen; font-weight:bold;" class="text-center">@ViewBag.Mensaje</span>
-                                    <button class="btn-warning">@Html.ActionLink("Editar", "Edit", new { id = Model.UsuarioId })</button>
-                                </div>
-                            }
+
                             <div>
-                                @if (ViewBag.op == 1)
+                               
+                                @if (ViewBag.op == "MiMascota")
                                 {
                                     <button class="btn-dark">@Html.ActionLink("Volver", "MiMascota", new { id = Model.UsuarioId })</button>
+                                    <span>&nbsp;&nbsp;&nbsp;</span>
+                                    <button id="eliminar" class="btn-warning" onclick="return confirm('¿Desea eliminar su mascota de la busqueda?')">@Html.ActionLink("Eliminar", "Delete", new { id = Model.MascotaId })</button>
                                 }
-                                @if (ViewBag.op == 2)
+                                else
                                 {
                                     <button class="btn-dark">@Html.ActionLink("Volver", "Index", new { id = Model.UsuarioId })</button>
+                                    <span>&nbsp;&nbsp;&nbsp;</span>                                    
+                                    <a>@Html.ActionLink("Contacta a su fmilia!", "Details", "Usuario", new { id = Model.UsuarioId })</a>
+
                                 }
 
                             </div>
@@ -146,11 +147,6 @@
 
     </div>
 </div>
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
 
 <script>
     function mostrarMapa() {
@@ -174,13 +170,21 @@
             strokeWeight: 2,
             fillColor: "#FF0000",
             fillOpacity: .15,
-            map: mapa,           
+            map: mapa,
             center: latLon,
             radius: 300
         }
         var circle = new google.maps.Circle(options);
-
-
     }
+
+
+
+
     window.addEventListener("load", mostrarMapa, false);
 </script>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

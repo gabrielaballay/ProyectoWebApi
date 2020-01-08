@@ -79,6 +79,7 @@ namespace PetFinder.Controllers
 
         // POST: Usuario/Edit/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Usuario user)
         {
 
@@ -105,6 +106,27 @@ namespace PetFinder.Controllers
             {
                 ViewBag.StackTrace = ex.StackTrace;
                 ViewBag.Error = ex.Message;
+                return View();
+            }
+        }
+
+        // GET: Usuario/Edit/5        
+        public ActionResult Details(int id)
+        {
+            try
+            {
+                if (TempData.ContainsKey("idmascota"))
+                {
+                    ViewBag.idmascota = TempData["idmascota"].ToString();
+                }
+                    
+                var user = contexto.Usuarios.AsNoTracking().SingleOrDefault(u => u.UsuarioId == id);                
+                return View(user);                
+            }
+            catch (Exception ex)
+            {
+                ViewBag.StackTrace = ex.StackTrace;
+                ViewBag.Error = "Error no se Puede mostrar este usuario";
                 return View();
             }
         }
@@ -140,6 +162,7 @@ namespace PetFinder.Controllers
 
         // POST: Usuario/CambiaClave/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CambiaClave(CambioClave cambioClave)
         {
 
@@ -189,6 +212,7 @@ namespace PetFinder.Controllers
 
         // POST: Usuario/CambiaMail/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CambiaMail(CambiarCorreo model)
         {
             if (ModelState.IsValid && model.NewCorreo==model.RepeatCorreo)

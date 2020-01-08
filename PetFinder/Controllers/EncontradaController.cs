@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ImageMagick;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +16,8 @@ namespace PetFinder.Controllers
     [Authorize(Policy = "Administrador")]
     public class EncontradaController : Controller
     {
+        private readonly int _RegistrosPorPagina = 3;
+        private PaginadorGenerico<Encontrada> _PaginadorCustomers;
         private List<Encontrada> listaMascotas = new List<Encontrada>();
         private readonly DataContext contexto;
         private readonly IConfiguration config;
@@ -24,29 +28,45 @@ namespace PetFinder.Controllers
             this.config = config;
         }
         // GET: Encontrada
-        public ActionResult Index()
+        public ActionResult Index(int pagina = 1)
         {
-            var todasMascotas = contexto.Encontradas
-                .Include(u => u.Lugar)                
-                .Where(m => m.Estado == 1);
-            
-            foreach (var m in todasMascotas)
+            int _TotalRegistros = 0;
+            using (contexto)
             {
-                var user = contexto.Usuarios.FirstOrDefault(u => u.UsuarioId == m.UsuarioId);
-                var folder = user.UsuarioId + "_" + user.Apellido;
-                m.Imagen = folder + "/" + m.Foto;
-                listaMascotas.Add(m);
-            }
-
-            return View(listaMascotas);
+                // Número total de registros de la tabla Customers
+                _TotalRegistros = contexto.Encontradas.Count();
+                // Obtenemos la 'página de registros' de la tabla Customers
+                listaMascotas = contexto.Encontradas.OrderBy(x => x.Fecha)
+                                                 .Include(u => u.Lugar)
+                                                 .Skip((pagina - 1) * _RegistrosPorPagina)
+                                                 .Take(_RegistrosPorPagina)
+                                                 .ToList();
+                // Número total de páginas de la tabla Customers
+                var _TotalPaginas = (int)Math.Ceiling((double)_TotalRegistros / _RegistrosPorPagina);
+                // Instanciamos la 'Clase de paginación' y asignamos los nuevos valores
+                _PaginadorCustomers = new PaginadorGenerico<Encontrada>()
+                {
+                    RegistrosPorPagina = _RegistrosPorPagina,
+                    TotalRegistros = _TotalRegistros,
+                    TotalPaginas = _TotalPaginas,
+                    PaginaActual = pagina,
+                    Resultado = listaMascotas
+                };
+                // Enviamos a la Vista la 'Clase de paginación'
+                return View(_PaginadorCustomers);
+            }            
         }
 
         // GET: Encontrada/Details/5
         public ActionResult Details(int id)
         {
-            return View();
-        }
+            var model= contexto.Encontradas
+                 .Include(u => u.Lugar)
+                 .FirstOrDefault(e => e.EncontradaId == id);
 
+            return View(model);
+        }
+        
         // GET: Encontrada/Create
         public ActionResult Create()
         {
@@ -56,43 +76,63 @@ namespace PetFinder.Controllers
         // POST: Encontrada/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Encontrada encontrada)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    var ubicacion = new Ubicacion
+                    {
+                        Latitud = encontrada.Lugar.Latitud,
+                        Longitud = encontrada.Lugar.Longitud,
+                        Zona = encontrada.Lugar.Zona
+                    };
+                    contexto.Ubicaciones.Add(ubicacion);
+                    contexto.SaveChanges();
+                    encontrada.UbicacionId = ubicacion.UbicacionId;
 
-                return RedirectToAction(nameof(Index));
+                    /************************Control de Imagen****************************/
+                    var image = encontrada.ArchivoImagen;
+                    var user = contexto.Usuarios.FirstOrDefault(u => u.Email == User.Identity.Name);
+                    encontrada.UsuarioId = user.UsuarioId;
+                    var fileName = "encontradas\\" + user.UsuarioId + "_" + user.Apellido+"\\"+ ControlaImagen.CambiarNombre();
+                    var folder = "wwwroot\\imagenesUsuarios\\";
+                    if (!Directory.Exists(folder))
+                    {
+                        Directory.CreateDirectory(folder);
+                    }
+
+                    var filePath = Path.Combine(folder, fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        image.CopyTo(fileStream);
+                    }
+
+                    using (MagickImage objMagick = new MagickImage(filePath))
+                    {
+                        objMagick.Resize(300, 0);
+                        objMagick.Write(filePath);
+                    }
+
+                    encontrada.Foto = fileName;
+                    encontrada.Imagen = fileName;
+                    /************************Fin de Control de Imgen***********************/
+                    encontrada.Estado = 1;
+                    contexto.Encontradas.Add(encontrada);
+                    contexto.SaveChanges();
+                }
+
+                return RedirectToAction("Index", "Home");
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.Error = e.InnerException;
                 return View();
             }
         }
-
-        // GET: Encontrada/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Encontrada/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
+                
         // GET: Encontrada/Delete/5
         public ActionResult Delete(int id)
         {

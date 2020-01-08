@@ -1,0 +1,119 @@
+﻿@model PetFinder.Models.Encontrada
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h4>Mascota Encontrada</h4>
+<hr />
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?v3&&key=AIzaSyBIN6hpUqdbpBoRwYTE1odhHdw1BEiMTVg"></script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row detalle_mascota">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-12 col-md-6">
+                <div class="foto_mascota_detalle">
+                    <img src="~/imagenesUsuarios/@Model.Foto" style="height:135px;" />
+                </div>
+                 <div id="mapaStatic" style="width:100%; height:250px;" class="mb-2 mt-2"></div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="mt-2">
+                    <div class="form-inline">
+                        <div class="col-4 col-md-3">
+                            <label>Zona</label>
+                        </div>
+                        <div class="">
+                            <textarea asp-for="Lugar.Zona" class="form-control" maxlength="30" rows="2" cols="30" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="col-4 col-md-3">
+                            <label>Latitud</label>
+                        </div>
+                        <div class="">
+                            <input id="lat" asp-for="Lugar.Latitud" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="col-4 col-md-3">
+                            <label>Longitud</label>
+                        </div>
+                        <div class="">
+                            <input id="lon" asp-for="Lugar.Longitud" class="form-control" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form-inline">
+                        <div class="col-4 col-md-3">
+                            <label>Descripcion</label>
+                        </div>
+                        <div class="">
+                            <textarea asp-for="Descripcion" class="form-control" cols="30" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="col-4 col-md-3">
+                            <label>Fecha</label>
+                        </div>
+                        <div class="">
+                            <input asp-for="Fecha" class="form-control" readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div class=" d-flex justify-content-around">
+                            <div>
+                                <button class="btn-dark">@Html.ActionLink("Volver", "Index")</button>
+                                <span>&nbsp;&nbsp;&nbsp;</span>
+                                <!--<button id="eliminar" class="btn-warning" onclick="return confirm('¿Desea eliminar su mascota de la busqueda?')">@Html.ActionLink("Eliminar", "Delete", new { id = Model.EncontradaId })</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function mostrarMapa() {
+        var lat = document.getElementById('lat').value.replace(",", ".");
+        var lon = document.getElementById('lon').value.replace(",", ".");
+        var map = document.getElementById('mapaStatic');
+        var latLon = new google.maps.LatLng(lat, lon);
+        var configMap = {
+            zoom: 15,
+            center: latLon
+        }
+        var mapa = new google.maps.Map(map, configMap);
+        var configMarker = {
+            position: latLon,
+            map: mapa
+        }
+        var marker = new google.maps.Marker(configMarker);
+        var options = {
+            strokeColor: "#0000FF",
+            strokeOpacity: .35,
+            strokeWeight: 2,
+            fillColor: "#FF0000",
+            fillOpacity: .15,
+            map: mapa,
+            center: latLon,
+            radius: 300
+        }
+        var circle = new google.maps.Circle(options);
+    }
+    window.addEventListener("load", mostrarMapa, false);
+</script>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

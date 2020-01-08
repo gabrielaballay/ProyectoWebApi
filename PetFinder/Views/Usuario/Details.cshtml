@@ -1,60 +1,60 @@
 ﻿@model PetFinder.Models.Usuario
+@inject DataContext context
+
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Contacto Mascota";
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>Usuario</h4>
+    <h4>Contacto Mascota</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UsuarioId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UsuarioId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Apellido)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Apellido)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefono)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telefono)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Clave)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Clave)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProvinciaId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProvinciaId)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <form asp-action="Edit" class="needs-validation" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <input asp-for="Apellido" class="form-control" readonly />
+                            <div class="invalid-feedback">Ingrese Apellido.</div>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Nombre" class="form-control" readonly />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Ciudad" class="form-control" readonly />
+                            <span asp-validation-for="Ciudad" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Telefono" class="form-control" readonly />
+                            <span asp-validation-for="Telefono" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="Email" class="form-control" readonly />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>                       
+                        <div class="form-group">
+                            <select asp-for="ProvinciaId" class="form-control" disabled >
+                            @foreach (var item in context.Provincias)
+                            {
+                                @:<option @(item.ProvinciaId == Model.ProvinciaId ? "selected" : "") value="@item.ProvinciaId">@(item.NombreProvincia)</option>
+                            }
+                            </select>
+                            <span asp-validation-for="ProvinciaId" class="text-danger"></span>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-12">
+                                <div>
+                                    <span style="color:forestgreen; font-weight:bold;" class="text-center d-block">@ViewBag.Mensaje</span>
+                                    <button class="btn-dark btn">@Html.ActionLink("Volver", "Details","Mascota", new { id = ViewBag.idmascota })</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

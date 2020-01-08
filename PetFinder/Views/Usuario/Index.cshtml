@@ -2,12 +2,12 @@
 @inject DataContext context
 
 @{
-    ViewData["Title"] = "Perfil";
+    ViewData["Title"] = "Perfil de Usuario";
 }
 <div>
     <h4>Mi Perfil</h4>
     <hr />
-    <div class="row">
+    <div class="row mb-2">
         <div class="col-md-12">
             <form asp-action="Edit" class="needs-validation" novalidate>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -38,7 +38,7 @@
                             <span asp-validation-for="Clave" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <select asp-for="ProvinciaId" class="form-control" disabled/>
+                            <select asp-for="ProvinciaId" class="form-control" disabled>
                             @foreach (var item in context.Provincias)
                             {
                                 @:<option @(item.ProvinciaId == Model.ProvinciaId ? "selected" : "") value="@item.ProvinciaId">@(item.NombreProvincia)</option>

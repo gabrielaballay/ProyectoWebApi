@@ -12,5 +12,6 @@
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
     <NameOfLastUsedPublishProfile>CustomProfile</NameOfLastUsedPublishProfile>
     <ShowAllFiles>false</ShowAllFiles>
+    <WebStackScaffolding_DbContextTypeFullName>PetFinder.Models.DataContext</WebStackScaffolding_DbContextTypeFullName>
   </PropertyGroup>
 </Project>

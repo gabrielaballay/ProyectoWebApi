@@ -4,13 +4,6 @@
     ViewData["Title"] = "Cargar";
 }
 
-<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css" />
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<script src='http://maps.google.com/maps/api/js?v3&key=AIzaSyBIN6hpUqdbpBoRwYTE1odhHdw1BEiMTVg'></script>
-<script src="~/js/locationpicker.jquery.js"></script>
-
 <style>
     .pac-container {
         z-index: 99999;
@@ -19,13 +12,13 @@
 
 <h4 class="d-inline-flex">Cargar Mascota</h4>&nbsp;<small class="d-inline-flex text-danger">No se olvide de llenar todos los campos</small>
 
-<div class="row detalle_mascota">
+<div class="row detalle_mascota mb-2">
     <div class="col-md-11">
-        <form asp-action="Create" enctype="multipart/form-data" method="post" class="needs-validation" novalidate>
+        <form asp-action="Create" enctype="multipart/form-data" method="post" id="form_datos" class="needs-validation" novalidate>
             <div class="row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="col-12 col-md-6">
-                    <div class="foto_mascota_detalle">
+                    <div>
                         <input asp-for="ArchivoImagen" type="file" class="form-control" accept="image/*" required />
                     </div>
                     <br />
@@ -152,7 +145,7 @@
                                 Monto
                             </td>
                             <td colspan="2">
-                                <input asp-for="Insentivo.Monto" class="form-control" />
+                                <input id="monto" asp-for="Insentivo.Monto" class="form-control" />
                             </td>
                         </tr>
                         <tr>
@@ -160,7 +153,7 @@
                                 Tiempo
                             </td>
                             <td colspan="2">
-                                <input asp-for="Insentivo.Tiempo" class="form-control" placeholder="Duracion de la recompensa en dias" />
+                                <input id="tiempo" asp-for="Insentivo.Tiempo" class="form-control" placeholder="Duracion de la recompensa en dias" />
                             </td>
                         </tr>
                     </table>
@@ -185,7 +178,10 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src='http://maps.google.com/maps/api/js?v3&key=AIzaSyBIN6hpUqdbpBoRwYTE1odhHdw1BEiMTVg'></script>
+<script src="~/js/locationpicker.jquery.js"></script>
 <script>
     $("#ModalMapPreview").locationpicker({
         location: {
@@ -194,8 +190,8 @@
         },
         inputBinding: {
             latitudeInput: $("#ModalMap-lat"),
-            longitudeInput: $("#ModalMap-lon")
-            //locationNameInput: $("#ModalMapAddress")
+            longitudeInput: $("#ModalMap-lon"),
+            locationNameInput: $("#ModalMapAddress")
         },
         enableAutocomplete: true,
         onchanged: function (currentLocation, radius, isMarkerDropped) {
@@ -207,6 +203,17 @@
     $("#ModalMap").on("shown.bs.modal", function () {
         $("#ModalMapPreview").locationpicker("autosize");
     });
+
+    /***************************************/
+    
+        $("#form_datos").submit(function () {
+
+            if ($("#monto").val() == "" && $("#tiempo").val()=="") {
+                $("#monto").val(0);
+                $("#tiempo").val(0);
+                return true;
+            }
+        });
 </script>
 
 
