@@ -18,32 +18,37 @@
 
                     <div class="form-group">
                         <label>Zona</label>
-                        <textarea asp-for="Lugar.Zona" class="form-control" placeholder="Descripciòn de la zona donde encontro la mascota" required></textarea>
+                        <textarea id="ubi" asp-for="Lugar.Zona" class="form-control" placeholder="Descripciòn de la zona donde encontro la mascota" required></textarea>
+                        <div class="invalid-feedback">Debe completar todos los campos.</div>
                     </div>
                     <div class="form-group">
                         <label>Latitud</label>
                         <input id="lat" asp-for="Lugar.Latitud" class="form-control" required />
+                        <div class="invalid-feedback">Debe completar todos los campos.</div>
 
                         <label>Longitud</label>
                         <input id="lon" asp-for="Lugar.Longitud" class="form-control" required />
+                        <div class="invalid-feedback">Debe completar todos los campos.</div>
                     </div>
                 </div>
 
                 <div class="col-12 col-md-6">
                     <div>
                         <input asp-for="ArchivoImagen" type="file" class="form-control" accept="image/*" required />
+                        <div class="invalid-feedback">Debe completar todos los campos.</div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Descripcion" class="control-label"></label>
                         <textarea asp-for="Descripcion" class="form-control" required></textarea>
-                        <span asp-validation-for="Descripcion" class="text-danger"></span>
+                        <div class="invalid-feedback">Debe completar todos los campos.</div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Fecha" class="control-label"></label>
                         <input asp-for="Fecha" type="date" class="form-control" required />
-                        <span asp-validation-for="Fecha" class="text-danger"></span>
+                        <div class="invalid-feedback">Debe completar todos los campos.</div>        
                     </div>
                 </div>
+                <div class="invalid-feedback">Debe completar todos los campos.</div>
                 <div class="form-group m-auto">
                     <input type="submit" value="Guardar Mascota" class="btn btn-primary" />
                 </div>
@@ -86,9 +91,9 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<script src='http://maps.google.com/maps/api/js?v3&key=AIzaSyBIN6hpUqdbpBoRwYTE1odhHdw1BEiMTVg'></script>
+<script src='http://maps.google.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyCfIMAGCSKeLJPoUwDPnGz7pB4-exX76Dk'></script>
 <script src="~/js/locationpicker.jquery.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
 <script>
 
@@ -99,14 +104,14 @@
         },
         inputBinding: {
             latitudeInput: $("#ModalMap-lat"),
-            longitudeInput: $("#ModalMap-lon")
-            //locationNameInput: $("#ModalMapAddress")
+            longitudeInput: $("#ModalMap-lon"),
+            locationNameInput: $("#ModalMapAddress")
         },
         enableAutocomplete: true,
         onchanged: function (currentLocation, radius, isMarkerDropped) {
-            //$("#ubicacion").html($("#ModalMapAddress").val());
             $("#lat").val($("#ModalMap-lat").val());
             $("#lon").val($("#ModalMap-lon").val());
+            $("#ubi").val($("#ModalMapAddress").val());
         }
     });
     $("#ModalMap").on("shown.bs.modal", function () {

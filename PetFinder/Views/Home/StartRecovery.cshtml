@@ -1,0 +1,27 @@
+﻿@model PetFinder.Models.StarRecoveryViewModel
+
+    <div class="container">
+        
+        <h4>Recuperar Contraseña</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <p>Para recuperar su contraseña ingrese el correo electronico con el que se registro</p>
+                <p>Se le enviara un correo electronico a esa direcci&oacute;n</p>
+                <form asp-action="StartRecovery">
+                    
+                    <div class="form-group">
+                        <label asp-for="Correo" class="control-label"></label>
+                        <input asp-for="Correo" class="form-control" />
+                        <span asp-validation-for="Correo" class="text-danger"></span>
+                    </div>
+                    <span class=" mb-4" style="color:darkred; font-size:16px;">@ViewBag.Mensaje</span>
+                    <div class="mt-4 form-group d-flex justify-content-around">
+                        <input type="submit" value="Enviar" class="btn btn-primary" />
+                    
+                        <a asp-controller="Home" asp-action="Login" class="btn btn-secondary">Volver al Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

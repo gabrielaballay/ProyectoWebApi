@@ -13,43 +13,47 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                         <div class="form-group">
-                            <input asp-for="Apellido" class="form-control" placeholder="Apellido" />
+                            <input asp-for="Apellido" class="form-control" placeholder="Apellido" required />
                             <span asp-validation-for="Apellido" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input asp-for="Nombre" class="form-control" placeholder="Nombre" />
+                            <input asp-for="Nombre" class="form-control" placeholder="Nombre" required />
                             <span asp-validation-for="Nombre" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input asp-for="Ciudad" class="form-control" placeholder="Ciudad" />
+                            <input asp-for="Ciudad" class="form-control" placeholder="Ciudad" required />
                             <span asp-validation-for="Ciudad" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input asp-for="Telefono" class="form-control" placeholder="Telefono" />
+                            <input asp-for="Telefono" class="form-control" placeholder="Telefono" required />
                             <span asp-validation-for="Telefono" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input asp-for="Email" class="form-control" placeholder="Email" />
+                            <input asp-for="Email" class="form-control" placeholder="Email" required />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input asp-for="Clave" class="form-control" placeholder="Password" data-toggle="tooltip" data-placement="top" title="La contraseña debe contener de 6 a 8 caracteres y al menos una letra o un digito" />
+                            <input asp-for="Clave" class="form-control" placeholder="Password" data-toggle="tooltip" data-placement="top" title="La contraseña debe contener de 6 a 8 caracteres y al menos una letra o un digito" required />
                             <span asp-validation-for="Clave" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <select asp-for="ProvinciaId" class="form-control" placeholder="Provincia">
-                            @foreach (var item in context.Provincias)
-                            {
-                                @:<option value="@item.ProvinciaId">@(item.NombreProvincia)</option>
-                            }
+                                @foreach (var item in context.Provincias)
+                                {
+                                    @:<option value="@item.ProvinciaId">@(item.NombreProvincia)</option>
+                                }
                             </select>
                             <span asp-validation-for="ProvinciaId" class="text-danger"></span>
                         </div>
+                        <span style="color:darkblue" class="text-justify">@ViewBag.Mensaje</span>
                         <div class="d-flex justify-content-around mb-2">
-                            <div>
-                                <input type="submit" value="Registrar" class="btn btn-primary" />
-                            </div>
-                            <div>
+                            @if (ViewBag.ok != "ok")
+                            {
+                                <div class="mt-2">
+                                    <input type="submit" value="Registrar" class="btn btn-primary" />
+                                </div>
+                            }
+                            <div class="mt-2">
                                 <a asp-controller="Home" asp-action="Login" class="btn btn-outline-success">Volver</a>
                             </div>
                         </div>

@@ -16,19 +16,19 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <input asp-for="Apellido" class="form-control" />
+                        <input asp-for="Apellido" class="form-control" required/>
                         <div class="invalid-feedback">Ingrese Apellido.</div>
                     </div>
                     <div class="form-group">
-                        <input asp-for="Nombre" class="form-control" />
+                        <input asp-for="Nombre" class="form-control" required/>
                         <span asp-validation-for="Nombre" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input asp-for="Ciudad" class="form-control" />
+                        <input asp-for="Ciudad" class="form-control" required/>
                         <span asp-validation-for="Ciudad" class="text-danger"></span>
                     </div>                
                     <div class="form-group">
-                        <input asp-for="Telefono" class="form-control" />
+                        <input asp-for="Telefono" class="form-control" required/>
                         <span asp-validation-for="Telefono" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -36,7 +36,7 @@
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input asp-for="Clave" value="@Model.Clave" class="form-control" readonly/>
+                        <input asp-for="Clave" value="1234as" class="form-control" readonly/>
                         <span asp-validation-for="Clave" class="text-danger"></span>
                     </div>
                     <div class="form-group">

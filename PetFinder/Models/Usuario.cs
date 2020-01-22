@@ -27,6 +27,7 @@ namespace PetFinder.Models
         [RegularExpression(@"^(?=.*\d)(?=.*[a-z]).{6,8}$", ErrorMessage = "Contraseña NO valida!!!")]
         public string Clave { get; set; }
         public int Estado { get; set; }
+        public string Confirma { get; set; }
         [Display(Name ="Provincia")]
         public int ProvinciaId { get; set; }
         [ForeignKey("ProvinciaId")]

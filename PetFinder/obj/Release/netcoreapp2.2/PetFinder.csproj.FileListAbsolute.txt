@@ -40,3 +40,9 @@ C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netco
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Mascota\Create.g.cshtml.cs
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Usuario\CambiaClave.g.cshtml.cs
 C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Usuario\CambiaMail.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Encontrada\Create.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Encontrada\Details.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Home\Account.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Home\Recovery.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Home\StartRecovery.g.cshtml.cs
+C:\Users\Gabriel\Desktop\ProyectoLaboratorio3\AppWeb\PetFinder\obj\Release\netcoreapp2.2\Razor\Views\Usuario\Contacto.g.cshtml.cs

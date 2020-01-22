@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-01-2020 a las 01:27:40
+-- Tiempo de generación: 09-01-2020 a las 23:16:35
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.2.9
 
@@ -30,9 +30,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `encontradas` (
   `EncontradaId` int(11) NOT NULL,
-  `Foto` varchar(40) NOT NULL,
+  `Foto` varchar(70) NOT NULL,
   `Descripcion` text NOT NULL,
   `Fecha` varchar(30) NOT NULL,
+  `Estado` int(11) NOT NULL,
   `UbicacionId` int(11) NOT NULL,
   `UsuarioId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -48,7 +49,7 @@ CREATE TABLE `mascotas` (
   `NombreMascota` varchar(40) NOT NULL,
   `Raza` varchar(30) NOT NULL,
   `Tamanio` varchar(30) NOT NULL,
-  `Edad` int(11) NOT NULL,
+  `Edad` varchar(40) NOT NULL,
   `Descripcion` text NOT NULL,
   `Foto` varchar(40) NOT NULL,
   `Estado` int(11) NOT NULL,
@@ -111,13 +112,6 @@ CREATE TABLE `recompensas` (
   `Estado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `recompensas`
---
-
-INSERT INTO `recompensas` (`RecompensaId`, `Monto`, `Tiempo`, `Estado`) VALUES
-(1, '0', '0', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -126,8 +120,8 @@ INSERT INTO `recompensas` (`RecompensaId`, `Monto`, `Tiempo`, `Estado`) VALUES
 
 CREATE TABLE `ubicaciones` (
   `UbicacionId` int(11) NOT NULL,
-  `Latitud` decimal(10,0) NOT NULL,
-  `Longitud` decimal(10,0) NOT NULL,
+  `Latitud` varchar(20) NOT NULL,
+  `Longitud` varchar(20) NOT NULL,
   `zona` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -146,6 +140,7 @@ CREATE TABLE `usuarios` (
   `Email` varchar(30) NOT NULL,
   `Clave` varchar(100) NOT NULL,
   `Estado` int(11) NOT NULL,
+  `Confirma` varchar(100) NOT NULL,
   `ProvinciaId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -193,6 +188,7 @@ ALTER TABLE `ubicaciones`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`UsuarioId`),
+  ADD UNIQUE KEY `Email` (`Email`),
   ADD KEY `ProvinciaId` (`ProvinciaId`);
 
 --
@@ -221,7 +217,7 @@ ALTER TABLE `provincias`
 -- AUTO_INCREMENT de la tabla `recompensas`
 --
 ALTER TABLE `recompensas`
-  MODIFY `RecompensaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `RecompensaId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `ubicaciones`

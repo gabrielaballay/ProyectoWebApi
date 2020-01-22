@@ -17,7 +17,7 @@ namespace PetFinder.Controllers
     [Authorize(Policy = "Administrador")]
     public class MascotaController : Controller
     {
-        private readonly int _RegistrosPorPagina =3;
+        private readonly int _RegistrosPorPagina =6;
         private PaginadorGenerico<Mascota> _PaginadorCustomers;
         private List<Mascota> listaMascotas = new List<Mascota>();
         private List<Mascota> misMascotas = new List<Mascota>();
@@ -109,7 +109,7 @@ namespace PetFinder.Controllers
                         Tiempo = mascota.Insentivo.Tiempo,
                         Estado = 1
                     };
-                    if (recompensa.Monto > 0)
+                    if (recompensa.Monto > 1)
                     {
                         if (recompensa.Estado == 1)
                         {
@@ -137,8 +137,8 @@ namespace PetFinder.Controllers
                     var image = mascota.ArchivoImagen;
                     var user = contexto.Usuarios.FirstOrDefault(u => u.Email == User.Identity.Name);
                     mascota.UsuarioId = user.UsuarioId;
-                    var fileName = user.UsuarioId + "_" + user.Apellido+"\\"+ControlaImagen.CambiarNombre();
-                    var folder = "wwwroot\\imagenesUsuarios\\";
+                    var fileName = ControlaImagen.CambiarNombre();
+                    var folder = "wwwroot\\imagenesUsuarios\\"+ user.UsuarioId + "_" + user.Apellido + "\\";
                     if (!Directory.Exists(folder))
                     {
                         Directory.CreateDirectory(folder);
@@ -157,7 +157,7 @@ namespace PetFinder.Controllers
                         objMagick.Write(filePath);
                     }
 
-                    mascota.Foto = fileName;
+                    mascota.Foto = user.UsuarioId + "_" + user.Apellido + "\\"+fileName;
                     mascota.Imagen = fileName;
                     /************************Fin de Control de Imgen***********************/
                     mascota.Estado = 1;

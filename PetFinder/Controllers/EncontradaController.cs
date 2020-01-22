@@ -16,7 +16,7 @@ namespace PetFinder.Controllers
     [Authorize(Policy = "Administrador")]
     public class EncontradaController : Controller
     {
-        private readonly int _RegistrosPorPagina = 3;
+        private readonly int _RegistrosPorPagina = 6;
         private PaginadorGenerico<Encontrada> _PaginadorCustomers;
         private List<Encontrada> listaMascotas = new List<Encontrada>();
         private readonly DataContext contexto;
@@ -96,8 +96,8 @@ namespace PetFinder.Controllers
                     var image = encontrada.ArchivoImagen;
                     var user = contexto.Usuarios.FirstOrDefault(u => u.Email == User.Identity.Name);
                     encontrada.UsuarioId = user.UsuarioId;
-                    var fileName = "encontradas\\" + user.UsuarioId + "_" + user.Apellido+"\\"+ ControlaImagen.CambiarNombre();
-                    var folder = "wwwroot\\imagenesUsuarios\\";
+                    var fileName = ControlaImagen.CambiarNombre();
+                    var folder = "wwwroot\\imagenesUsuarios\\"+ "encontradas\\" + user.UsuarioId + "_" + user.Apellido + "\\" ;
                     if (!Directory.Exists(folder))
                     {
                         Directory.CreateDirectory(folder);
@@ -116,7 +116,7 @@ namespace PetFinder.Controllers
                         objMagick.Write(filePath);
                     }
 
-                    encontrada.Foto = fileName;
+                    encontrada.Foto = "encontradas\\" + user.UsuarioId + "_" + user.Apellido + "\\" + fileName;
                     encontrada.Imagen = fileName;
                     /************************Fin de Control de Imgen***********************/
                     encontrada.Estado = 1;

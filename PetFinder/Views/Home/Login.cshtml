@@ -39,13 +39,10 @@
                     <input asp-for="Clave" class="form-control" required />
                     <div class="invalid-feedback">Ingrese una contraseña!!!</div>
                 </div>
+                
                 <div class="form-group">
-                    <label class="form-check-label">
-                        <input type="checkbox" name="" id="" value="opcion1"> Recordarme
-                    </label>
-                </div>
-                <div class="form-group">
-                    <a href="#">Olvide mi contraseña</a>
+                    <a asp-controller="Home" asp-action="StartRecovery" >Olvidaste tu contraseña?</a>
+                    <!--<p>Olvidaste tu contraseña?</p>-->
                 </div>
                 <div class="form-group d-flex justify-content-around">
                     <div><input type="submit" value="Ingresar" class="btn btn-primary" /></div>

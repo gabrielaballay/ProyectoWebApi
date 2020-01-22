@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,14 +27,14 @@ namespace PetFinder.Controllers
         // GET: Usuario
         public ActionResult Index()
         {
-            var u= User.Identity.Name;
-            var usuario = contexto.Usuarios.Include(x=>x.Vive).FirstOrDefault(x => x.Email==u);
-            
+            var u = User.Identity.Name;
+            var usuario = contexto.Usuarios.Include(x => x.Vive).FirstOrDefault(x => x.Email == u);
+
             if (TempData.ContainsKey("MensajeData"))
             {
                 ViewBag.Mensaje = TempData["MensajeData"].ToString();
             }
-            
+
             return View(usuario);
         }
 
@@ -55,9 +56,29 @@ namespace PetFinder.Controllers
                 usuario.Estado = 1;
                 if (ModelState.IsValid)
                 {
+                    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                    password: usuario.Email,
+                    salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                    prf: KeyDerivationPrf.HMACSHA1,
+                    iterationCount: 1000,
+                    numBytesRequested: 256 / 8));
+
+                    //new Email().ConfirmarCuenta(usuario.Email,hashed);
+
+                    usuario.Confirma = "activa";
+                    string hashedclave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                    password: usuario.Clave,
+                    salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                    prf: KeyDerivationPrf.HMACSHA1,
+                    iterationCount: 1000,
+                    numBytesRequested: 256 / 8));
+                    usuario.Clave = hashedclave;
+
                     contexto.Usuarios.Add(usuario);
                     contexto.SaveChanges();
-                    return RedirectToAction(nameof(Index));
+                    ViewBag.Mensaje = "Se registro con exito!!!";//, se le envio un mail para confirmar su cuenta. Revice su correo electronico.";
+                    ViewBag.ok = "ok";
+                    return View();
                 }
                 return View(ModelState.Values);
             }
@@ -86,11 +107,11 @@ namespace PetFinder.Controllers
             try
             {
                 var user_old = contexto.Usuarios.AsNoTracking().SingleOrDefault(u => u.UsuarioId == id);
-                
-                if (ModelState.IsValid && user_old!= null)
+                user.Clave = user_old.Clave;
+                if (ModelState.IsValid && user_old != null)
                 {
-                    user.UsuarioId = id;                    
-                    user.Estado=1;
+                    user.UsuarioId = id;
+                    user.Estado = 1;
                     contexto.Usuarios.Update(user);
                     contexto.SaveChanges();
                     TempData["MensajeData"] = "Los datos se modificaron con exito!";
@@ -100,7 +121,7 @@ namespace PetFinder.Controllers
                 {
                     ViewBag.Error = "Error al intentar modificar los datos!";
                     return View(user);
-                }                
+                }
             }
             catch (Exception ex)
             {
@@ -119,9 +140,9 @@ namespace PetFinder.Controllers
                 {
                     ViewBag.idmascota = TempData["idmascota"].ToString();
                 }
-                    
-                var user = contexto.Usuarios.AsNoTracking().SingleOrDefault(u => u.UsuarioId == id);                
-                return View(user);                
+
+                var user = contexto.Usuarios.AsNoTracking().SingleOrDefault(u => u.UsuarioId == id);
+                return View(user);
             }
             catch (Exception ex)
             {
@@ -129,6 +150,118 @@ namespace PetFinder.Controllers
                 ViewBag.Error = "Error no se Puede mostrar este usuario";
                 return View();
             }
+        }
+        
+        // GET: Usuario/CambiaClave/5
+        public ActionResult CambiaClave(int id)
+        {
+            return View();
+        }
+
+        // POST: Usuario/CambiaClave/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CambiaClave(CambioClave cambioClave)
+        {
+
+            try
+            {
+                var user_old = contexto.Usuarios.AsNoTracking().SingleOrDefault(u => u.Email == User.Identity.Name);
+
+                if (ModelState.IsValid)
+                {
+                    string hashedOld = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                        password: cambioClave.OldClave,
+                        salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                        prf: KeyDerivationPrf.HMACSHA1,
+                        iterationCount: 1000,
+                        numBytesRequested: 256 / 8));
+
+                    if (user_old.Clave == hashedOld)
+                    {
+                        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                        password: cambioClave.NewClave,
+                        salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
+                        prf: KeyDerivationPrf.HMACSHA1,
+                        iterationCount: 1000,
+                        numBytesRequested: 256 / 8));
+
+                        user_old.Clave = hashed;
+                        contexto.Usuarios.Update(user_old);
+                        contexto.SaveChanges();
+                        return RedirectToAction("Logout", "Home");
+                    }
+                    else
+                    {
+                        ViewBag.ErrorOldClave = "Contraseña incorrecta";
+                        return View();
+                    }
+                }
+                else
+                {
+                    ViewBag.Error = "Error al intentar modificar los datos!";
+                    return View();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.StackTrace = ex.StackTrace;
+                ViewBag.Error = ex.Message;
+                return View();
+            }
+        }
+
+        // GET: Usuario/CambiaMail
+        public ActionResult CambiaMail()
+        {
+            ViewBag.mail = User.Identity.Name;
+            return View();
+        }
+
+        // POST: Usuario/CambiaMail/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CambiaMail(CambiarCorreo model)
+        {
+            if (ModelState.IsValid && model.NewCorreo == model.RepeatCorreo)
+            {
+                var user = contexto.Usuarios.FirstOrDefault(x => x.Email == model.OldCorreo);
+                user.Email = model.NewCorreo;
+                contexto.Usuarios.Update(user);
+                contexto.SaveChanges();
+
+                return RedirectToAction("Logout", "Home");
+            }
+            else
+            {
+                ViewBag.mail = User.Identity.Name;
+                return View(model);
+            }
+        }
+
+        // GET: Usuario/Contacto
+        public ActionResult Contacto()
+        {
+            ViewBag.user = User.Identity.Name;
+            return View();
+        }
+
+        // POST: Usuario/CambiaMail/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Contacto(ContactoViewModel cvm)
+        {
+            if (ModelState.IsValid)
+            {
+                var msj = cvm.Correo + ": " + cvm.Mensaje;
+                new Email().EnviarCorreo("postmaster@petfinderarg.com", cvm.Asunto, msj);
+                ViewBag.exito = "El Correo se envio con exito";
+                ViewBag.ok = "ok";
+                return View();
+            }
+            ViewBag.mensaje = "Error al enviar correo";
+            return View();
         }
 
         /******Cambia el estado del usuario cuando este elimine su cuenta******/
@@ -154,82 +287,5 @@ namespace PetFinder.Controllers
                  return View();
              }
          }*/
-
-        public ActionResult CambiaClave(int id)
-        {            
-            return View();
-        }
-
-        // POST: Usuario/CambiaClave/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CambiaClave(CambioClave cambioClave)
-        {
-
-            try
-            {
-                var user_old = contexto.Usuarios.AsNoTracking().SingleOrDefault(u => u.Email== User.Identity.Name);
-
-                if (ModelState.IsValid) 
-                {
-                    if (user_old.Clave == cambioClave.OldClave)
-                    {                        
-                        /*user.UsuarioId = id;
-                        user.Estado = 1;
-                        contexto.Usuarios.Update(user);
-                        contexto.SaveChanges();
-                        TempData["MensajeData"] = "Los datos se modificaron con exito!";
-                        return RedirectToAction(nameof(Index));*/
-                        ViewBag.Error = "Bien!";
-                        return RedirectToAction("Logout", "Home");
-                    }
-                    else
-                    {
-                        ViewBag.ErrorOldClave = "Contraseña incorrecta";
-                        return View();
-                    }
-                }
-                else
-                {
-                    ViewBag.Error = "Error al intentar modificar los datos!";
-                    return View();
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                ViewBag.StackTrace = ex.StackTrace;
-                ViewBag.Error = ex.Message;
-                return View();
-            }
-        }
-
-        public ActionResult CambiaMail()
-        {
-            ViewBag.mail = User.Identity.Name;
-            return View();
-        }
-
-        // POST: Usuario/CambiaMail/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CambiaMail(CambiarCorreo model)
-        {
-            if (ModelState.IsValid && model.NewCorreo==model.RepeatCorreo)
-            {
-                var user = contexto.Usuarios.FirstOrDefault(x => x.Email == model.OldCorreo);
-                user.Email = model.NewCorreo;
-                contexto.Usuarios.Update(user);
-                contexto.SaveChanges();
-
-                return RedirectToAction("Logout", "Home");
-            }
-            else
-            {
-                ViewBag.mail = User.Identity.Name;
-                return View(model);
-            }            
-        }
-
     }
 }

@@ -1,0 +1,36 @@
+﻿@model PetFinder.Models.RecoveryViewModel
+
+<div class="container">
+    <h4>Recuperar Contraseña</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Recovery" class="needs-validation" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Correo" class="control-label"></label>
+                    <input asp-for="Correo" class="form-control" />
+                    <span asp-validation-for="Correo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NewClave" class="control-label"></label>
+                    <input asp-for="NewClave" class="form-control" />
+                    <span asp-validation-for="NewClave" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RepeatClave" class="control-label"></label>
+                    <input asp-for="RepeatClave" class="form-control" />
+                    <span asp-validation-for="RepeatClave" class="text-danger"></span>
+                </div>
+                <span class=" mb-4" style="color:darkred; font-size:16px;">@ViewBag.Mensaje</span>
+                <div class="mt-4 form-group d-flex justify-content-around">
+                    <input type="submit" value="Enviar" class="btn btn-primary" />
+
+                    <a asp-controller="Home" asp-action="Login" class="btn btn-secondary">Volver al Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

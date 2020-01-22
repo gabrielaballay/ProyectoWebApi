@@ -15,4 +15,17 @@
       "provider": "unpkg",
       "library": "bootstrap@4.1.3",
       "destination": "wwwroot/lib/bootstrap/"
+    },
+    {
+      "library": "jqueryui@1.12.1",
+      "files": [
+        "jquery-ui.css",
+        "jquery-ui.js",
+        "images/ui-icons_444444_256x240.png",
+        "images/ui-icons_777777_256x240.png",
+        "images/ui-icons_ffffff_256x240.png"
+      ],
+      "destination": "wwwroot/jquery-ui"
     }
+  ]
+}

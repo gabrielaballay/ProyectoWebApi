@@ -47,54 +47,62 @@
         </table>
     </div>
 </div>
-@if (Model.Resultado.Count() > 0)
-{
-    <span class="nomostrar">
-        <strong>@Model.TotalRegistros</strong> registros encontrados
-    </span>
-    <span class="nomostrar2">&nbsp;|&nbsp;</span>
-    <span class="nomostrar2">
-        Página <strong>@(Model.PaginaActual)</strong> de
-        <strong>@Model.TotalPaginas</strong>
-    </span>
-    <span class="nomostrar2">&nbsp;|&nbsp;</span>
-}
-else
-{
-    <span>No hay resultados para esta búsqueda</span>
-    <span>&nbsp;|&nbsp;</span>
-}
 
-@if (Model.PaginaActual > 1)
-{
-    @Html.ActionLink("<<", "Index", new { pagina = 1 },
-                    new { @class = "btn btn-sm btn-default" })
-    <span></span>
-    @Html.ActionLink("Anterior", "Index", new { pagina = Model.PaginaActual - 1 },
-                    new { @class = "btn btn-sm btn-default" })
-}
-else
-{
-    @Html.ActionLink("<<", "Index", new { pagina = 1 },
-                    new { @class = "btn btn-sm btn-default disabled" })
-    <span></span>
-    @Html.ActionLink("Anterior", "Index", new { pagina = 1 },
-                    new { @class = "btn btn-sm btn-default disabled" })
-}
-<span></span>
-@if (Model.PaginaActual < Model.TotalPaginas)
-{
-    @Html.ActionLink("Siguiente", "Index", new { pagina = Model.PaginaActual + 1 },
-                    new { @class = "btn btn-sm btn-default" })
-    <span></span>
-    @Html.ActionLink(">>", "Index", new { pagina = Model.TotalPaginas },
-                    new { @class = "btn btn-sm btn-default" })
-}
-else
-{
-    @Html.ActionLink("Siguiente", "Index", new { pagina = Model.TotalPaginas - 1 },
-                    new { @class = "btn btn-sm btn-default disabled" })
-    <span></span>
-    @Html.ActionLink(">>", "Index", new { pagina = Model.TotalPaginas },
-                    new { @class = "btn btn-sm btn-default disabled" })
-}
+<div class="row">
+    <div class="col-12 col-md-10 d-flex justify-content-center">
+        @if (Model.Resultado.Count() > 0)
+        {
+            <span class="nomostrar">
+                <strong>@Model.TotalRegistros</strong> registros encontrados
+            </span>
+            <span class="nomostrar2">&nbsp;|&nbsp;</span>
+            <span class="nomostrar2">
+                Página <strong>@(Model.PaginaActual)</strong> de
+                <strong>@Model.TotalPaginas</strong>
+            </span>
+            <span class="nomostrar2">&nbsp;|&nbsp;</span><br />
+        }
+        else
+        {
+            <span>No hay resultados para esta búsqueda</span>
+            <span>&nbsp;|&nbsp;</span><br />
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-md-10 d-flex justify-content-center">
+        @if (Model.PaginaActual > 1)
+        {
+            @Html.ActionLink("<<", "Index", new { pagina = 1 },
+                            new { @class = "btn btn-sm btn-default" })
+            <span></span>
+            @Html.ActionLink("Anterior", "Index", new { pagina = Model.PaginaActual - 1 },
+                            new { @class = "btn btn-sm btn-default" })
+        }
+        else
+        {
+            @Html.ActionLink("<<", "Index", new { pagina = 1 },
+                            new { @class = "btn btn-sm btn-default disabled" })
+            <span></span>
+            @Html.ActionLink("Anterior", "Index", new { pagina = 1 },
+                            new { @class = "btn btn-sm btn-default disabled" })
+        }
+        <span></span>
+        @if (Model.PaginaActual < Model.TotalPaginas)
+        {
+            @Html.ActionLink("Siguiente", "Index", new { pagina = Model.PaginaActual + 1 },
+                            new { @class = "btn btn-sm btn-default" })
+            <span></span>
+            @Html.ActionLink(">>", "Index", new { pagina = Model.TotalPaginas },
+                            new { @class = "btn btn-sm btn-default" })
+        }
+        else
+        {
+            @Html.ActionLink("Siguiente", "Index", new { pagina = Model.TotalPaginas - 1 },
+                            new { @class = "btn btn-sm btn-default disabled" })
+            <span></span>
+            @Html.ActionLink(">>", "Index", new { pagina = Model.TotalPaginas },
+                            new { @class = "btn btn-sm btn-default disabled" })
+        }
+    </div>
+</div>

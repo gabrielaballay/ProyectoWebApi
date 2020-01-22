@@ -64,7 +64,7 @@
                                 Zona:
                             </td>
                             <td colspan="4" class="td_detalle">
-                                <textarea asp-for="Lugar.Zona" class="form-control" placeholder="Descripciòn de la zona donde se perdio su mascota" required></textarea>
+                                <textarea id="ubi" asp-for="Lugar.Zona" class="form-control" placeholder="Zona donde se perdio la mascota" required></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -82,6 +82,7 @@
                             </td>
                         </tr>
                     </table>
+                    
                 </div>
                 <div class="col-12 col-md-6">
                     <table>
@@ -178,26 +179,29 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<script src='http://maps.google.com/maps/api/js?v3&key=AIzaSyBIN6hpUqdbpBoRwYTE1odhHdw1BEiMTVg'></script>
+<script src='http://maps.google.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyCfIMAGCSKeLJPoUwDPnGz7pB4-exX76Dk'></script>
 <script src="~/js/locationpicker.jquery.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
 <script>
     $("#ModalMapPreview").locationpicker({
         location: {
             latitude: -33.302103,
             longitude: -66.337091
         },
-        inputBinding: {
-            latitudeInput: $("#ModalMap-lat"),
-            longitudeInput: $("#ModalMap-lon"),
-            locationNameInput: $("#ModalMapAddress")
-        },
         enableAutocomplete: true,
+        inputBinding: {
+            latitudeInput: $('#ModalMap-lat'),
+            longitudeInput: $('#ModalMap-lon'),
+            locationNameInput: $('#ModalMapAddress')
+        },
+
         onchanged: function (currentLocation, radius, isMarkerDropped) {
-            //$("#ubicacion").html($("#ModalMapAddress").val());
             $("#lat").val($("#ModalMap-lat").val());
             $("#lon").val($("#ModalMap-lon").val());
+            $("#ubi").val($("#ModalMapAddress").val());
         }
     });
     $("#ModalMap").on("shown.bs.modal", function () {
@@ -205,15 +209,15 @@
     });
 
     /***************************************/
-    
-        $("#form_datos").submit(function () {
 
-            if ($("#monto").val() == "" && $("#tiempo").val()=="") {
-                $("#monto").val(0);
-                $("#tiempo").val(0);
-                return true;
-            }
-        });
+    $("#form_datos").submit(function () {
+
+        if ($("#monto").val() == "" && $("#tiempo").val() == "") {
+            $("#monto").val(0);
+            $("#tiempo").val(0);
+            return true;
+        }
+    });
 </script>
 
 
