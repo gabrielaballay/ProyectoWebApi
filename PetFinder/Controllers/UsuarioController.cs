@@ -53,7 +53,7 @@ namespace PetFinder.Controllers
         {
             try
             {
-                usuario.Estado = 1;
+                usuario.Estado = 0;
                 if (ModelState.IsValid)
                 {
                     string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -63,9 +63,9 @@ namespace PetFinder.Controllers
                     iterationCount: 1000,
                     numBytesRequested: 256 / 8));
 
-                    //new Email().ConfirmarCuenta(usuario.Email,hashed);
+                    new Email().ConfirmarCuenta(usuario.Email,hashed);
 
-                    usuario.Confirma = "activa";
+                    usuario.Confirma = hashed;
                     string hashedclave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                     password: usuario.Clave,
                     salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),

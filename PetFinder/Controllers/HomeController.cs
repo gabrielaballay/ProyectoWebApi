@@ -139,8 +139,7 @@ namespace PetFinder.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]        
         [AllowAnonymous]
         public async Task<ActionResult> StartRecovery(StarRecoveryViewModel srvm)
         {
@@ -153,7 +152,7 @@ namespace PetFinder.Controllers
                         prf: KeyDerivationPrf.HMACSHA1,
                         iterationCount: 1000,
                         numBytesRequested: 256 / 8));
-                new Email().RestaurarClave(srvm.Correo, hashed);
+                new Email().RestaurarClave(user.Email, hashed);
                 user.Confirma = hashed;
                 contexto.Usuarios.Update(user);
                 contexto.SaveChanges();
@@ -179,7 +178,6 @@ namespace PetFinder.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public async Task<ActionResult> Recovery(RecoveryViewModel rvm)
         {

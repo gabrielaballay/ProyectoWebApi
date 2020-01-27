@@ -26,9 +26,8 @@ namespace PetFinder.Models
 
                 SmtpClient smtp = new SmtpClient("mail.petfinderarg.com");
 
-                //IMPORANT:  Your smtp login email MUST be same as your FROM address. 
                 NetworkCredential Credentials = new NetworkCredential("postmaster@petfinderarg.com", "Bruno-1977");
-                //smtp.Host = "mail.petfinderarg.com";
+                
                 smtp.UseDefaultCredentials = true;
                 smtp.Port = 25;    //alternative port number is 8889
                 smtp.Credentials = Credentials;
@@ -51,8 +50,7 @@ namespace PetFinder.Models
             var asunto = "Confirmacion de Cuenta";
                         
             var msj = "Para confirmar su cuenta haga click en el siguiente enlace \n" +
-                "por favor http://petfinderarg.com/Home/Account?token=" + code;
-            // "por favor http://localhost:2677/Home/Account?token=" + code;
+                "por favor http://petfinderarg.com/Home/Account?token=" + code;            
             
             EnviarCorreo(para, asunto, msj);
         }
