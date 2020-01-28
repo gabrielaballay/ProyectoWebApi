@@ -109,7 +109,7 @@ namespace PetFinder.Controllers
                         Tiempo = mascota.Insentivo.Tiempo,
                         Estado = 1
                     };
-                    if (recompensa.Monto > 1)
+                    if (Convert.ToInt32(recompensa.Monto) > 1)
                     {
                         if (recompensa.Estado == 1)
                         {
@@ -171,7 +171,7 @@ namespace PetFinder.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.Error = e.InnerException;
+                ViewBag.error = e.InnerException;
                 return View();
             }
         }

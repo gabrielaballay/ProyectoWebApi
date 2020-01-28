@@ -164,6 +164,7 @@
                 <div class="col-12">
                     <div class=" d-flex justify-content-around">
                         <div>
+                            <span style="color:forestgreen; font-weight:bold;" class="text-center">@ViewBag.error</span>
                             @if (ViewBag.Ok == null)
                             {
                                 <input type="submit" value="Guardar" class="btn btn-primary" />
@@ -172,6 +173,7 @@
                             {
                                 <span style="color:forestgreen; font-weight:bold;" class="text-center">@ViewBag.Mensaje</span>
                             }
+
                         </div>
                         <div>
                             <a asp-controller="Home" asp-action="Index" class="btn btn-success">Volver</a>

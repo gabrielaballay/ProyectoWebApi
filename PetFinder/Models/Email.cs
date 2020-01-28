@@ -41,7 +41,7 @@ namespace PetFinder.Models
             var asunto = "Confirmacion de Cuenta";
                         
             var msj = "Para confirmar su cuenta haga click en el siguiente enlace \n" +
-                "por favor https://petfinderarg.com/Home/Account?token=" + code;
+                "por favor http://petfinderarg.com/Home/Account?token=" + code;
             /*http://localhost:2677/Home/Account?token= */
             EnviarCorreo(para, asunto, msj);
         }
@@ -51,7 +51,7 @@ namespace PetFinder.Models
             var asunto = "Resturar Contraseña";
 
             var msj = "Para restaurar su conraseña haga click en el siguiente enlace \n" +
-                "por fovar https://petfinderarg.com/Home/Recovery?token=" + code;
+                "por fovar http://petfinderarg.com/Home/Recovery?token=" + code;
             /* http://localhost:2677/Home/Recovery?token= */
             EnviarCorreo(para, asunto, msj);
         }

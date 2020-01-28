@@ -124,13 +124,14 @@ namespace PetFinder.Controllers
                     contexto.SaveChanges();
                     ViewBag.Mensaje = "La mascota se cargo con exito!, precione Volver";
                     ViewBag.Ok = "ok";
+                    return View();
                 }
-
+                ViewBag.error = "hubo un problema";
                 return View();
             }
             catch (Exception e)
             {
-                ViewBag.Error = e.InnerException;
+                ViewBag.error = e.InnerException;
                 return View();
             }
         }
