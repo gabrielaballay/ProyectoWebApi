@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.Extensions.Configuration;
 
 namespace PetFinder.Models
 {
@@ -22,25 +17,21 @@ namespace PetFinder.Models
                 m.To.Add(para);
                 m.Subject = asunto;
                 m.Body = mensaje;
-                m.IsBodyHtml = true;
-
+                m.IsBodyHtml = true;                
+                                
                 SmtpClient smtp = new SmtpClient("mail.petfinderarg.com");
-
                 NetworkCredential Credentials = new NetworkCredential("postmaster@petfinderarg.com", "Bruno-1977");
-                
-                smtp.UseDefaultCredentials = true;
-                smtp.Port = 25;    //alternative port number is 8889
+                smtp.UseDefaultCredentials = false;
                 smtp.Credentials = Credentials;
+                smtp.Port = 25;    //alternative port number is 8889
                 smtp.EnableSsl = false;
                 smtp.Send(m);
-                
-                //smtp.UseDefaultCredentials = false;
                 
                 return true;
             }
             catch(Exception e)
             {
-                var error = e.Message;
+                var error = e.StackTrace;
                 return false;
             }
         }
@@ -50,8 +41,8 @@ namespace PetFinder.Models
             var asunto = "Confirmacion de Cuenta";
                         
             var msj = "Para confirmar su cuenta haga click en el siguiente enlace \n" +
-                "por favor http://petfinderarg.com/Home/Account?token=" + code;            
-            
+                "por favor https://petfinderarg.com/Home/Account?token=" + code;
+            /*http://localhost:2677/Home/Account?token= */
             EnviarCorreo(para, asunto, msj);
         }
 
@@ -60,7 +51,8 @@ namespace PetFinder.Models
             var asunto = "Resturar Contraseña";
 
             var msj = "Para restaurar su conraseña haga click en el siguiente enlace \n" +
-                "por fovar http://petfinderarg.com/Home/Recovery?token=" + code;
+                "por fovar https://petfinderarg.com/Home/Recovery?token=" + code;
+            /* http://localhost:2677/Home/Recovery?token= */
             EnviarCorreo(para, asunto, msj);
         }
     }

@@ -24,8 +24,10 @@
                 </div>
                 <span class=" mb-4" style="color:darkred; font-size:16px;">@ViewBag.Mensaje</span>
                 <div class="mt-4 form-group d-flex justify-content-around">
-                    <input type="submit" value="Enviar" class="btn btn-primary" />
-
+                    @if (ViewBag.Ok == null)
+                    {
+                        <input type="submit" value="Enviar" class="btn btn-primary" />
+                    }
                     <a asp-controller="Home" asp-action="Login" class="btn btn-secondary">Volver al Login</a>
                 </div>
             </form>

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using PetFinder.Models;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace PetFinder.Controllers
 {
@@ -63,7 +64,8 @@ namespace PetFinder.Controllers
                     iterationCount: 1000,
                     numBytesRequested: 256 / 8));
 
-                    new Email().ConfirmarCuenta(usuario.Email,hashed);
+                    hashed = CleanInput(hashed);//quita los caracteres especiales de la cadena
+                    new Email().ConfirmarCuenta(usuario.Email,hashed);//Envio del mail
 
                     usuario.Confirma = hashed;
                     string hashedclave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -76,7 +78,7 @@ namespace PetFinder.Controllers
 
                     contexto.Usuarios.Add(usuario);
                     contexto.SaveChanges();
-                    ViewBag.Mensaje = "Se registro con exito!!!";//, se le envio un mail para confirmar su cuenta. Revice su correo electronico.";
+                    ViewBag.Mensaje = "Se registro con exito!!!, se le envio un mail para confirmar su cuenta. Revice su correo electronico.";
                     ViewBag.ok = "ok";
                     return View();
                 }
@@ -287,5 +289,23 @@ namespace PetFinder.Controllers
                  return View();
              }
          }*/
+
+        public string CleanInput(string strIn)
+        {
+            // Replace invalid characters with empty strings.
+            try
+            {
+                return Regex.Replace(strIn, @"[^\w\.@-]", "",
+                                     RegexOptions.None, TimeSpan.FromSeconds(1.5));
+            }
+            // If we timeout when replacing invalid characters, 
+            // we should return Empty.
+            catch (RegexMatchTimeoutException)
+            {
+                return String.Empty;
+            }
+        }
+
+
     }
 }

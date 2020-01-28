@@ -163,9 +163,11 @@ namespace PetFinder.Controllers
                     mascota.Estado = 1;
                     contexto.Mascotas.Add(mascota);
                     contexto.SaveChanges();
+                    ViewBag.Mensaje = "Su mascota se cargo con exito!, precione Volver...";
+                    ViewBag.Ok = "ok";
                 }
 
-                return RedirectToAction("Index", "Home");
+                return View();
             }
             catch (Exception e)
             {

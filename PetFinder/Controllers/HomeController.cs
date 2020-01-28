@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace PetFinder.Controllers
@@ -152,11 +153,14 @@ namespace PetFinder.Controllers
                         prf: KeyDerivationPrf.HMACSHA1,
                         iterationCount: 1000,
                         numBytesRequested: 256 / 8));
-                new Email().RestaurarClave(user.Email, hashed);
+                hashed = CleanInput(hashed);//quita los caracteres especiales de la cadena
+
+                new Email().RestaurarClave(user.Email, hashed);//Envio del mail
                 user.Confirma = hashed;
                 contexto.Usuarios.Update(user);
                 contexto.SaveChanges();
-                ViewBag.Mensaje = "El correo se envio con exito.";                
+                ViewBag.Mensaje = "Se le envio un correo a su cuenta para restaurar su Contraseña";
+                ViewBag.Ok = "Ok";
                 return View(srvm);
             }
             ViewBag.Mensaje = "El correo no existe!!!";
@@ -195,11 +199,28 @@ namespace PetFinder.Controllers
                 contexto.Usuarios.Update(user);
                 contexto.SaveChanges();
                 ViewBag.Mensaje = "Su contraseña se restauro con exito. Ya puede ingresar.";
+                ViewBag.Ok = "ok";
                 return View(rvm);
             }
             ViewBag.Mensaje = "El correo no existe o las contraseñas no son iguales!!!";
             return View();
         }
 
+        public string CleanInput(string strIn)
+        {
+            // Replace invalid characters with empty strings.
+            try
+            {
+                return Regex.Replace(strIn, @"[^\w\.@-]", "",
+                                     RegexOptions.None, TimeSpan.FromSeconds(1.5));
+            }
+            // If we timeout when replacing invalid characters, 
+            // we should return Empty.
+            catch (RegexMatchTimeoutException)
+            {
+                return String.Empty;
+            }
+        }
     }
+
 }
